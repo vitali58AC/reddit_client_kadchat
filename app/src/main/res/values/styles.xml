@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="RobotoRegular">
+        <item name="fontFamily">@font/roboto_regular</item>
+    </style>
+
+    <style name="RobotoBold">
+        <item name="fontFamily">@font/roboto_bold</item>
+    </style>
+
+    <style name="montserrat_black">
+        <item name="fontFamily">@font/montserrat_black</item>
+    </style>
+
+</resources>

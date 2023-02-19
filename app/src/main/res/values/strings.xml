@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">KadChat</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="kadchat">KadChat</string>
+    <string name="Skip">Пропустить</string>
+    <string name="Done">Готово</string>
+    <string name="intro_image">Intro image</string>
+    <string name="welcome_to_kadchat">Добро пожаловать в KadChat</string>
+    <string name="welcome_description">Здесь собраны сообщества по всевозможным интересам</string>
+    <string name="sub_kadchat">SubKadChat</string>
+    <string name="sub_kadchat_description">Ты можешь найти новые сабы по интересам и посмотреть сабы, на которые подписан</string>
+    <string name="share_and_save">Делись и сохраняй</string>
+    <string name="share_and_save_description">Вкладка избранное хранит закладки с комментариями и сабами. В профиле ты найдёшь информацию о себе.</string>
+</resources>
