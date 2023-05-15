@@ -1,0 +1,11 @@
+.gradle
+.idea
+
+*.iml
+local.properties
+
+automation/*
+build/
+proguard/
+captures/
+app/production.keystore

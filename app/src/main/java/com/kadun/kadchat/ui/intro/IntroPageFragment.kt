@@ -29,7 +29,7 @@ class IntroPageFragment : InsetsWithBindingFragment<FragmentIntroPageBinding>() 
             getString(R.string.Skip)
         }
         skipButton.setOnClickListener {
-            findNavController().navigate(IntroFragmentDirections.toHomeNavigation())
+            findNavController().navigate(IntroFragmentDirections.toLoginFragment())
         }
     }
 

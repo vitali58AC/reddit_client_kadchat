@@ -13,8 +13,8 @@
         android:label="IntroFragment"
         tools:layout="@layout/fragment_intro">
         <action
-            android:id="@+id/to_home_navigation"
-            app:destination="@id/home_navigation"
+            android:id="@+id/to_loginFragment"
+            app:destination="@id/loginFragment"
             app:enterAnim="@anim/enter_from_right"
             app:exitAnim="@anim/exit_to_left"
             app:launchSingleTop="true"
@@ -23,6 +23,34 @@
             app:popUpTo="@+id/intro_navigation"
             app:popUpToInclusive="true" />
 
+    </fragment>
+
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.kadun.kadchat.ui.intro.LoginFragment"
+        android:label="LoginFragment"
+        tools:layout="@layout/fragment_login">
+
+        <deepLink
+            android:id="@+id/login_fragment_deepLink"
+            app:uri="android-app://com.kadun.kadchat/login_fragment" />
+        <action
+            android:id="@+id/to_authFragment"
+            app:destination="@id/authFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/authFragment"
+        android:name="com.kadun.kadchat.ui.intro.AuthFragment"
+        android:label="AuthFragment"
+        tools:layout="@layout/fragment_auth">
+        <action
+            android:id="@+id/action_authFragment_to_home_navigation"
+            app:destination="@id/home_navigation"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/exit_to_right"
+            app:popUpTo="@+id/intro_navigation"
+            app:popUpToInclusive="true" />
     </fragment>
 
 </navigation>

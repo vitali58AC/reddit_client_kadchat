@@ -13,4 +13,6 @@
     <string name="sub_kadchat_description">Ты можешь найти новые сабы по интересам и посмотреть сабы, на которые подписан</string>
     <string name="share_and_save">Делись и сохраняй</string>
     <string name="share_and_save_description">Вкладка избранное хранит закладки с комментариями и сабами. В профиле ты найдёшь информацию о себе.</string>
+    <string name="find_friends_with_kadchat">Найди единомышленников с KadChat</string>
+    <string name="enter">Войти</string>
 </resources>

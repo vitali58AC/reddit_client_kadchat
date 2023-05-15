@@ -13,4 +13,9 @@
         <item name="fontFamily">@font/montserrat_black</item>
     </style>
 
+    <style name="RobotoRegular12" parent="RobotoRegular">
+        <item name="android:textSize">12sp</item>
+        <item name="lineHeight">15sp</item>
+    </style>
+
 </resources>
