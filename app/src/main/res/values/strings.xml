@@ -19,4 +19,7 @@
     <string name="new_upper">Новое</string>
     <string name="popular">Популярное</string>
     <string name="subscribe_to_user">Subscribe to user</string>
+    <string name="unknown_error_occurred">Произошла неизвестная ошибка</string>
+    <string name="success_subscribe">Вы успешно подписались на subreddit</string>
+    <string name="success_unsubscribe">Вы успешно отписались от subreddit</string>
 </resources>

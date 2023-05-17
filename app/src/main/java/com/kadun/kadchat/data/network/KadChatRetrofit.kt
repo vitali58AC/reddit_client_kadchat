@@ -23,7 +23,7 @@ class KadChatRetrofit {
             .build()
 
         fun provideRetrofit(client: OkHttpClient): Retrofit = Retrofit.Builder()
-            .baseUrl("https://www.reddit.com/")
+            .baseUrl("https://oauth.reddit.com/")
             .addConverterFactory(ScalarsConverterFactory.create())
             .addConverterFactory(MoshiConverterFactory.create(getMoshi()).asLenient())
             .client(client)

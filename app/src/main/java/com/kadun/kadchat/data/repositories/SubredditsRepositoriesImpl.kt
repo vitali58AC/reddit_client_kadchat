@@ -4,7 +4,9 @@ import androidx.paging.*
 import com.kadun.kadchat.data.db.RoomDaoDatabase
 import com.kadun.kadchat.data.db.entity.DbSubredditData
 import com.kadun.kadchat.data.network.api.RedditApi
+import com.kadun.kadchat.data.network.data.subreddit.SubscribeAction
 import com.kadun.kadchat.data.network.mediators.SubredditPagingMediator
+import com.kadun.kadchat.data.utils.onSuccess
 import com.kadun.kadchat.data.utils.suspendCallForAppResult
 import com.kadun.kadchat.ui.home.data.SubredditsType
 import kotlinx.coroutines.flow.Flow
@@ -43,6 +45,27 @@ class SubredditsRepositoriesImpl(
             remoteMediator = SubredditPagingMediator(db, this, type)
         ).flow
     }
+
+    override suspend fun changeSubredditSubscribeState(
+        action: SubscribeAction,
+        displayName: String
+    ) = suspendCallForAppResult {
+        api.changeSubredditSubscribeState(
+            action = action.value,
+            skip_initial_defaults = action == SubscribeAction.SUBSCRIBE,
+            sr_name = displayName
+        )
+    }.onSuccess {
+        db.getSubredditDao().updateSubredditSubscribeState(
+            isSubscribed = action == SubscribeAction.SUBSCRIBE,
+            displayName = displayName
+        )
+    }
+
+    override suspend fun getMeJson() =
+        suspendCallForAppResult {
+            api.getMeJson()
+        }
 
     private fun getDefaultPageConfig(): PagingConfig {
         return PagingConfig(

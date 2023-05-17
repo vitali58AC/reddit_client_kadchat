@@ -11,7 +11,7 @@ class AuthInterceptor(private val authClient: RedditAuth) : Interceptor {
             ?: authClient.getTokenBearer()?.getAccessToken()
             ?: ""
         val modifiedRequest = chain.request().newBuilder()
-            .addHeader("Authorization", token)
+            .addHeader("Authorization", "Bearer $token")
             .build()
         return chain.proceed(modifiedRequest)
     }

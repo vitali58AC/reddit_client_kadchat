@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.SimpleItemAnimator
+import com.kadun.kadchat.R
 import com.kadun.kadchat.common.InsetsWithBindingFragment
 import com.kadun.kadchat.common.ItemClickListener
 import com.kadun.kadchat.common.aboveBottomNavigation
@@ -28,7 +29,7 @@ class SubredditPageFragment : InsetsWithBindingFragment<FragmentSubredditPageBin
     }
     private val onItemClickListener = object : ItemClickListener<DbSubredditData> {
         override fun onItemClicked(item: DbSubredditData) {
-            showSnackbar("Item ${item.display_name} clicked")
+            viewModel.changeSubredditSubscribeState(item)
         }
     }
     private val subredditAdapter by lazy {
@@ -51,8 +52,23 @@ class SubredditPageFragment : InsetsWithBindingFragment<FragmentSubredditPageBin
 
     private fun HomeViewModel.initFlows() {
         viewLifecycleOwner.lifecycleScope.launch {
-            posts.collectLatest {
-                subredditAdapter.submitData(it)
+            launch {
+                posts.collectLatest {
+                    subredditAdapter.submitData(it)
+                }
+            }
+            launch {
+                subscribeStateFlow.collectLatest {
+                    val message =
+                        getString(if (it) R.string.success_subscribe else R.string.success_unsubscribe)
+                    showSnackbar(message)
+                }
+            }
+            launch {
+                errorStateFlow.collectLatest {
+                    val message = it ?: getString(R.string.unknown_error_occurred)
+                    showSnackbar(message)
+                }
             }
         }
     }

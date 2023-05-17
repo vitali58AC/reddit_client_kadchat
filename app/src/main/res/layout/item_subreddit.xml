@@ -37,9 +37,9 @@
         android:background="@drawable/bg_ripple_transparent"
         android:contentDescription="@string/subscribe_to_user"
         android:padding="22dp"
-        android:src="@drawable/ic_subscribe"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="ImageContrastCheck" />
+        tools:ignore="ImageContrastCheck"
+        tools:src="@drawable/ic_subscribe" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

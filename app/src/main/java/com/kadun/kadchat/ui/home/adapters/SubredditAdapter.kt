@@ -2,9 +2,11 @@ package com.kadun.kadchat.ui.home.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.kadun.kadchat.R
 import com.kadun.kadchat.common.ItemClickListener
 import com.kadun.kadchat.data.db.entity.DbSubredditData
 import com.kadun.kadchat.databinding.ItemSubredditBinding
@@ -31,14 +33,23 @@ class SubredditAdapter(private val clickListener: ItemClickListener<DbSubredditD
 
     inner class SubredditHolder(private val binding: ItemSubredditBinding) :
         RecyclerView.ViewHolder(binding.root) {
+
         fun bind(item: DbSubredditData) {
             binding.apply {
                 tvTitle.text = item.title
+                ibSubscribe.setImageDrawable(getSubscribeDrawable(item.user_is_subscriber))
                 ibSubscribe.setOnClickListener {
                     clickListener.onItemClicked(item)
                 }
             }
         }
+
+        private fun ItemSubredditBinding.getSubscribeDrawable(isSubscribed: Boolean?) =
+            if (isSubscribed == true) {
+                AppCompatResources.getDrawable(root.context, R.drawable.ic_unsubscribe)
+            } else {
+                AppCompatResources.getDrawable(root.context, R.drawable.ic_subscribe)
+            }
     }
 
     private object DiffCallback : DiffUtil.ItemCallback<DbSubredditData>() {

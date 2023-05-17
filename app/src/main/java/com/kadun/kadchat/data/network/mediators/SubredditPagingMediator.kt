@@ -8,7 +8,7 @@ import androidx.room.withTransaction
 import com.kadun.kadchat.data.db.RoomDaoDatabase
 import com.kadun.kadchat.data.db.entity.DbSubredditData
 import com.kadun.kadchat.data.db.entity.DbSubredditRemoteKeys
-import com.kadun.kadchat.data.network.data.DataDto
+import com.kadun.kadchat.data.network.data.subreddit.DataDto
 import com.kadun.kadchat.data.repositories.SubredditsRepositoriesImpl
 import com.kadun.kadchat.data.utils.suspendTransform
 import com.kadun.kadchat.ui.home.data.SubredditsType

@@ -21,7 +21,7 @@ abstract class RoomDaoDatabase : RoomDatabase() {
     abstract fun getSubredditRemoteKeysDao(): SubredditRemoteKeysDao
 
     companion object {
-        const val DB_VERSION = 1
+        const val DB_VERSION = 2
         private const val DB_NAME = "room-dao-data"
 
 

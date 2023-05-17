@@ -19,4 +19,7 @@ interface SubredditDao {
 
     @Query("SELECT * FROM DbSubredditData WHERE subredditType =:type ORDER BY sortingPosition")
     fun getSubredditByType(type: SubredditsType): PagingSource<Int, DbSubredditData>
+
+    @Query("UPDATE DbSubredditData SET user_is_subscriber = :isSubscribed WHERE display_name = :displayName")
+    suspend fun updateSubredditSubscribeState(isSubscribed: Boolean, displayName: String)
 }
