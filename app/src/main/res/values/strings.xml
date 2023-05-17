@@ -15,4 +15,8 @@
     <string name="share_and_save_description">Вкладка избранное хранит закладки с комментариями и сабами. В профиле ты найдёшь информацию о себе.</string>
     <string name="find_friends_with_kadchat">Найди единомышленников с KadChat</string>
     <string name="enter">Войти</string>
+    <string name="search">\ud83d\udd0d Поиск</string>
+    <string name="new_upper">Новое</string>
+    <string name="popular">Популярное</string>
+    <string name="subscribe_to_user">Subscribe to user</string>
 </resources>

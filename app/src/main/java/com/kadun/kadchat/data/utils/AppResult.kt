@@ -32,3 +32,22 @@ inline fun <T : Any> AppResult<T>.onFailure(block: (Throwable) -> Unit): AppResu
     if (this is AppResult.Failure) block(this.throwable)
     return this
 }
+
+suspend fun <T : Any, V : Any> AppResult<T>.suspendTransform(
+    throwableTransformation: (Throwable) -> V,
+    transformation: suspend (T) -> V,
+): V {
+    return when (this) {
+        is AppResult.Success -> transformation(this.data)
+        is AppResult.Failure -> throwableTransformation(throwable)
+        else -> throwableTransformation(EmptyDataAppResultException())
+    }
+}
+
+class EmptyDataAppResultException : Exception() {
+
+    override val message: String
+        get() = "AppResult has no data"
+
+    override fun getLocalizedMessage(): String = message
+}

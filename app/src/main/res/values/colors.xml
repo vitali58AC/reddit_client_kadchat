@@ -11,4 +11,6 @@
     <color name="logo_color">#5222D0</color>
     <color name="sky_blue">#805222D0</color>
     <color name="ripple">#B9BDDD</color>
+    <color name="default_background">#0A5222D0</color>
+    <color name="item_subreddit_color_one">#335222D0</color>
 </resources>

@@ -10,11 +10,11 @@ import org.koin.dsl.module
 
 val networkModule = module {
 
-    single { RedditAuthClient.getAuthClient(androidContext()/*, get()*/) }
+    single { RedditAuthClient.getAuthClient(androidContext()) }
     single { KadChatRetrofit.provideOkHttpClient(get()) }
     single { KadChatRetrofit.provideRetrofit(get()) }
     single { KadChatRetrofit.provideRedditApi(get()) }
     single { AuthInterceptor(get()) }
 
-    factory<SubredditsRepositories> { SubredditsRepositoriesImpl(get()) }
+    factory<SubredditsRepositories> { SubredditsRepositoriesImpl(get(), get()) }
 }

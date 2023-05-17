@@ -1,6 +1,8 @@
 package com.kadun.kadchat.data.extentions
 
+import android.os.Build
 import android.os.Bundle
+import android.os.Parcelable
 import androidx.fragment.app.Fragment
 
 fun <T : Fragment> T.withArguments(action: Bundle.() -> Unit): T {
@@ -8,4 +10,12 @@ fun <T : Fragment> T.withArguments(action: Bundle.() -> Unit): T {
         val args = Bundle().apply(action)
         arguments = args
     }
+}
+
+/**
+ * Убрать предупреждение(которое появилось с 33 API) для getParcelable
+ */
+inline fun <reified T : Parcelable> Bundle.getParcelableSafe(key: String): T? = when {
+    Build.VERSION.SDK_INT >= 33 -> getParcelable(key, T::class.java)
+    else -> @Suppress("DEPRECATION") getParcelable(key) as? T
 }
