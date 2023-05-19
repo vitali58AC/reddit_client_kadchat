@@ -5,10 +5,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.SimpleItemAnimator
 import com.kadun.kadchat.R
 import com.kadun.kadchat.common.InsetsWithBindingFragment
-import com.kadun.kadchat.common.ItemClickListener
+import com.kadun.kadchat.common.SubredditClickListener
 import com.kadun.kadchat.common.aboveBottomNavigation
 import com.kadun.kadchat.common.createDefaultSnackbar
 import com.kadun.kadchat.data.db.entity.DbSubredditData
@@ -27,9 +28,28 @@ class SubredditPageFragment : InsetsWithBindingFragment<FragmentSubredditPageBin
     private val viewModel by viewModel<HomeViewModel> {
         parametersOf(requireArguments().getParcelableSafe<SubredditsType>(SUBREDDIT_TYPE))
     }
-    private val onItemClickListener = object : ItemClickListener<DbSubredditData> {
-        override fun onItemClicked(item: DbSubredditData) {
+    private val onItemClickListener = object : SubredditClickListener<DbSubredditData> {
+        override fun onSubscribeClicked(item: DbSubredditData) {
             viewModel.changeSubredditSubscribeState(item)
+        }
+
+        override fun onFavoriteClicked(item: DbSubredditData) {
+            showSnackbar("add to favorite!")
+        }
+
+        override fun onRootClicked(item: DbSubredditData) {
+            viewModel.changeSubredditExpandState(item)
+        }
+
+        override fun onOpenSubredditPosts(item: DbSubredditData) {
+            (item.display_name_prefixed ?: item.display_name)?.let {
+                findNavController().navigate(
+                    HomeFragmentDirections.actionNavigationHomeToPostsFragment(
+                        displayName = item.display_name,
+                        displayNamePrefixed = it
+                    )
+                )
+            } ?: showSnackbar("Произошла неизвестная ошибка")
         }
     }
     private val subredditAdapter by lazy {
@@ -53,7 +73,7 @@ class SubredditPageFragment : InsetsWithBindingFragment<FragmentSubredditPageBin
     private fun HomeViewModel.initFlows() {
         viewLifecycleOwner.lifecycleScope.launch {
             launch {
-                posts.collectLatest {
+                subreddits.collectLatest {
                     subredditAdapter.submitData(it)
                 }
             }

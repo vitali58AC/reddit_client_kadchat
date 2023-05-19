@@ -35,7 +35,11 @@ class AuthFragment : InsetsWithBindingFragment<FragmentAuthBinding>() {
                     val isRedirected = authClient.isRedirectedUrl(url)
                     if (isRedirected) {
                         binding.wbRoot.stopLoading()
-                        openHomeFragment()
+                        lifecycleScope.launch(Dispatchers.IO) {
+                            authClient.getTokenBearer(url)?.let {
+                                openHomeFragment()
+                            }
+                        }
                     }
                 }
             }

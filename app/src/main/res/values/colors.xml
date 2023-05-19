@@ -13,4 +13,7 @@
     <color name="ripple">#B9BDDD</color>
     <color name="default_background">#0A5222D0</color>
     <color name="item_subreddit_color_one">#335222D0</color>
+    <color name="warning_red">#EC615B</color>
+    <color name="navigation_menu_color">#f2e6fc</color>
+    <color name="light_gray">#5C5B5B</color>
 </resources>

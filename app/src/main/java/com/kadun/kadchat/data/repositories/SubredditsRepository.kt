@@ -1,27 +1,32 @@
 package com.kadun.kadchat.data.repositories
 
 import androidx.paging.PagingData
+import com.kadun.kadchat.data.db.entity.DbFriendsData
+import com.kadun.kadchat.data.db.entity.DbPostsData
 import com.kadun.kadchat.data.db.entity.DbSubredditData
+import com.kadun.kadchat.data.network.data.posts.PostDto
 import com.kadun.kadchat.data.network.data.subreddit.DataDto
+import com.kadun.kadchat.data.network.data.subreddit.SubredditsDto
 import com.kadun.kadchat.data.network.data.subreddit.SubscribeAction
+import com.kadun.kadchat.data.network.data.users.FriendDto
 import com.kadun.kadchat.data.utils.AppResult
 import com.kadun.kadchat.ui.home.data.SubredditsType
 import kotlinx.coroutines.flow.Flow
 import okhttp3.ResponseBody
 
-interface SubredditsRepositories {
+interface SubredditsRepository {
 
     suspend fun getNewSubreddits(
         after: String?, count: Int?, limit: Int?
-    ): AppResult<DataDto>
+    ): AppResult<DataDto<SubredditsDto>>
 
     suspend fun getPopularSubreddits(
         after: String?, count: Int?, limit: Int?
-    ): AppResult<DataDto>
+    ): AppResult<DataDto<SubredditsDto>>
 
     suspend fun getSubredditByType(
         type: SubredditsType, after: String?, count: Int?, limit: Int? = 25
-    ): AppResult<DataDto>
+    ): AppResult<DataDto<SubredditsDto>>
 
     fun getSubredditFlow(type: SubredditsType): Flow<PagingData<DbSubredditData>>
 
@@ -31,4 +36,20 @@ interface SubredditsRepositories {
     ): AppResult<ResponseBody>
 
     suspend fun getMeJson(): AppResult<ResponseBody>
+
+    fun getFriendsFlow(): Flow<PagingData<DbFriendsData>>
+
+    suspend fun getCurrentUserFriends(
+        after: String?,
+        count: Int?,
+        limit: Int? = 25
+    ): AppResult<DataDto<FriendDto>>
+
+    suspend fun changeSubredditExpandedState(id: String, state: Boolean)
+
+    suspend fun getNewSubredditPosts(
+        nameWithPrefix: String, after: String?, count: Int?, limit: Int? = 25
+    ): AppResult<DataDto<PostDto>>
+
+    fun getNewPostsFlow(subredditName: String): Flow<PagingData<DbPostsData>>
 }

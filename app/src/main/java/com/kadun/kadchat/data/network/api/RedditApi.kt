@@ -1,9 +1,14 @@
 package com.kadun.kadchat.data.network.api
 
-import com.kadun.kadchat.data.network.data.subreddit.SubredditsRootDto
+import com.kadun.kadchat.data.network.data.posts.PostDto
+import com.kadun.kadchat.data.network.data.subreddit.RedditPagingRootDto
+import com.kadun.kadchat.data.network.data.subreddit.SubredditsDto
+import com.kadun.kadchat.data.network.data.users.FriendDto
+import com.kadun.kadchat.data.network.data.users.UserDto
 import okhttp3.ResponseBody
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface RedditApi {
@@ -13,14 +18,14 @@ interface RedditApi {
         @Query("after") after: String?,
         @Query("count") count: Int?,
         @Query("limit") limit: Int?,
-    ): SubredditsRootDto
+    ): RedditPagingRootDto<SubredditsDto>
 
     @GET("subreddits/popular")
     suspend fun getPopularSubreddits(
         @Query("after") after: String?,
         @Query("count") count: Int?,
         @Query("limit") limit: Int?,
-    ): SubredditsRootDto
+    ): RedditPagingRootDto<SubredditsDto>
 
     @POST("api/subscribe")
     suspend fun changeSubredditSubscribeState(
@@ -31,4 +36,32 @@ interface RedditApi {
 
     @GET("api/me.json")
     suspend fun getMeJson(): ResponseBody
+
+    @GET("api/v1/me")
+    suspend fun getCurrentUserInfo(): UserDto
+
+    @GET("api/v1/me/friends")
+    suspend fun getCurrentUserFriends(
+        @Query("after") after: String?,
+        @Query("count") count: Int?,
+        @Query("limit") limit: Int?,
+    ): RedditPagingRootDto<FriendDto>
+
+    @GET("r/subreddit/search")
+    suspend fun searchSubredditPosts(@Query("q") name: String): ResponseBody
+
+    @GET("{subReddit}/new")
+    suspend fun getNewSubredditPosts(
+        @Path("subReddit") fullName: String,
+        @Query("after") after: String?,
+        @Query("count") count: Int?,
+        @Query("limit") limit: Int?
+    ): RedditPagingRootDto<PostDto>
+
+
+    @POST("api/vote")
+    suspend fun changeThingVoteStatus(
+        @Query("dir") direction: Int,
+        @Query("id") fullName: String,
+    ): ResponseBody
 }

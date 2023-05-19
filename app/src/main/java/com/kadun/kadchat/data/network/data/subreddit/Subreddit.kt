@@ -9,5 +9,10 @@ data class Subreddit(
     val community_icon: String?,
     val created: Double?,
     val user_is_subscriber: Boolean?,
-    val description: String?
+    val description: String?,
+    val icon_img: String?,
+    val header_img: String?,
+    val subscribers: Int?,
+    val public_description: String?,
+    val banner_background_image: String?
 )

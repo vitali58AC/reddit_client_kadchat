@@ -46,5 +46,6 @@ class RedditAuthClient {
             .build()
 
         fun String.fixRedditAuthUrl() = replace("www.reddit.com", "old.reddit.com")
+        fun String.fixRedditImageLink() = replace("&amp;", "&")
     }
 }

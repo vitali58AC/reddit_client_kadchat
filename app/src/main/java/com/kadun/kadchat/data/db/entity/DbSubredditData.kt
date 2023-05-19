@@ -18,7 +18,14 @@ data class DbSubredditData(
     val created: Double?,
     val subredditType: SubredditsType,
     val user_is_subscriber: Boolean?,
-    val description: String?
+    val description: String?,
+    val icon_img: String?,
+    val header_img: String?,
+    val subscribers: Int?,
+    val public_description: String?,
+    val banner_background_image: String?,
+    val isExpanded: Boolean = false,
+    val isFavorite: Boolean = false
 ) {
     companion object {
         fun fromDto(dto: SubredditsDto, type: SubredditsType) = DbSubredditData(
@@ -31,7 +38,12 @@ data class DbSubredditData(
             created = dto.data.created,
             subredditType = type,
             user_is_subscriber = dto.data.user_is_subscriber,
-            description = dto.data.description
+            description = dto.data.description,
+            icon_img = dto.data.icon_img,
+            header_img = dto.data.header_img,
+            subscribers = dto.data.subscribers,
+            public_description = dto.data.public_description,
+            banner_background_image = dto.data.banner_background_image
         )
     }
 }

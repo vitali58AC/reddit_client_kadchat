@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="14dp"
+    android:layout_marginVertical="5.5dp"
+    android:background="@drawable/bg_ripple_white_rounded_10"
+    android:orientation="vertical">
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/ivAvatar"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_gravity="center"
+        android:layout_marginHorizontal="43dp"
+        android:layout_marginTop="35dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.MaterialComponents.FloatingActionButton"
+        tools:src="@drawable/ic_launcher_drawable_list" />
+
+    <TextView
+        android:id="@+id/tvName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginHorizontal="11dp"
+        android:layout_marginTop="8.12dp"
+        android:background="@drawable/bg_rounded_subreddit_color_one"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:paddingHorizontal="22dp"
+        android:textAppearance="@style/RobotoBoldText16"
+        tools:text="User full name" />
+
+    <TextView
+        android:id="@+id/tvUserName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="3dp"
+        android:layout_marginBottom="35dp"
+        android:background="@drawable/bg_rounded_subreddit_color_one"
+        android:paddingHorizontal="6dp"
+        android:textAppearance="@style/RobotoRegular12"
+        tools:text="\@username" />
+
+</LinearLayout>

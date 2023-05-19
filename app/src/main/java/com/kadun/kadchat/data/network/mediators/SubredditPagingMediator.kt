@@ -9,14 +9,15 @@ import com.kadun.kadchat.data.db.RoomDaoDatabase
 import com.kadun.kadchat.data.db.entity.DbSubredditData
 import com.kadun.kadchat.data.db.entity.DbSubredditRemoteKeys
 import com.kadun.kadchat.data.network.data.subreddit.DataDto
-import com.kadun.kadchat.data.repositories.SubredditsRepositoriesImpl
+import com.kadun.kadchat.data.network.data.subreddit.SubredditsDto
+import com.kadun.kadchat.data.repositories.SubredditsRepositoryImpl
 import com.kadun.kadchat.data.utils.suspendTransform
 import com.kadun.kadchat.ui.home.data.SubredditsType
 
 @OptIn(ExperimentalPagingApi::class)
 class SubredditPagingMediator<P : Any>(
     private val db: RoomDaoDatabase,
-    private val subredditRepo: SubredditsRepositoriesImpl,
+    private val subredditRepo: SubredditsRepositoryImpl,
     private val type: SubredditsType,
 ) : RemoteMediator<Int, P>() {
 
@@ -51,7 +52,7 @@ class SubredditPagingMediator<P : Any>(
         db.getSubredditDao().clearSubredditDataByType(type)
     }
 
-    private suspend fun saveData(dto: DataDto) = db.withTransaction {
+    private suspend fun saveData(dto: DataDto<SubredditsDto>) = db.withTransaction {
         db.getSubredditRemoteKeysDao()
             .insert(
                 DbSubredditRemoteKeys(

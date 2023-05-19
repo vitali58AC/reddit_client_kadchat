@@ -1,12 +1,11 @@
 package com.kadun.kadchat.ui.home
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
 import com.kadun.kadchat.data.db.entity.DbSubredditData
 import com.kadun.kadchat.data.network.data.subreddit.SubscribeAction
-import com.kadun.kadchat.data.repositories.SubredditsRepositories
+import com.kadun.kadchat.data.repositories.SubredditsRepository
 import com.kadun.kadchat.data.utils.onFailure
 import com.kadun.kadchat.data.utils.onSuccess
 import com.kadun.kadchat.ui.home.data.SubredditsType
@@ -18,7 +17,7 @@ import kotlinx.coroutines.launch
 
 class HomeViewModel(
     type: SubredditsType,
-    private val subredditsRepo: SubredditsRepositories
+    private val subredditsRepo: SubredditsRepository
 ) : ViewModel() {
 
     private val _subscribeStateFlow = MutableSharedFlow<Boolean>()
@@ -28,10 +27,10 @@ class HomeViewModel(
     val errorStateFlow: SharedFlow<String?> get() = _errorStateFlow
 
     private val coroutineExceptionHandler = CoroutineExceptionHandler { _, e ->
-        Log.e("HomeViewModel error", "e")
+        viewModelScope.launch { _errorStateFlow.emit(e.message) }
     }
 
-    val posts = subredditsRepo.getSubredditFlow(type)
+    val subreddits = subredditsRepo.getSubredditFlow(type)
         .cachedIn(viewModelScope)
 
     fun changeSubredditSubscribeState(item: DbSubredditData) =
@@ -48,5 +47,10 @@ class HomeViewModel(
                     _errorStateFlow.emit(it.message)
                 }
             }
+        }
+
+    fun changeSubredditExpandState(item: DbSubredditData) =
+        viewModelScope.launch(Dispatchers.IO + coroutineExceptionHandler) {
+            item.id?.let { subredditsRepo.changeSubredditExpandedState(it, item.isExpanded.not()) }
         }
 }

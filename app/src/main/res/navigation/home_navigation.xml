@@ -9,7 +9,15 @@
         android:id="@+id/navigation_home"
         android:name="com.kadun.kadchat.ui.home.HomeFragment"
         android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_navigation_home_to_postsFragment"
+            app:destination="@id/postsFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/exit_to_left"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/exit_to_right" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_favorite"
@@ -19,7 +27,36 @@
 
     <fragment
         android:id="@+id/navigation_profile"
-        android:name="com.kadun.kadchat.ui.notifications.NotificationsFragment"
-        android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
+        android:name="com.kadun.kadchat.ui.profile.ProfileFragment"
+        android:label="@string/profile"
+        tools:layout="@layout/fragment_profile">
+        <action
+            android:id="@+id/to_friendsListFragment"
+            app:destination="@id/friendsListFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/exit_to_left"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/exit_to_right" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/friendsListFragment"
+        android:name="com.kadun.kadchat.ui.profile.FriendsListFragment"
+        android:label="FriendsListFragment"
+        tools:layout="@layout/fragment_friends_list" />
+    <fragment
+        android:id="@+id/postsFragment"
+        android:name="com.kadun.kadchat.ui.home.PostsFragment"
+        android:label="PostsFragment"
+        tools:layout="@layout/fragment_posts">
+        <argument
+            android:name="displayName"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="displayNamePrefixed"
+            app:argType="string"
+            app:nullable="false" />
+    </fragment>
+
 </navigation>

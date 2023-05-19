@@ -2,7 +2,7 @@
     <string name="app_name">KadChat</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="profile">Profile</string>
     <string name="kadchat">KadChat</string>
     <string name="Skip">Пропустить</string>
     <string name="Done">Готово</string>
@@ -22,4 +22,22 @@
     <string name="unknown_error_occurred">Произошла неизвестная ошибка</string>
     <string name="success_subscribe">Вы успешно подписались на subreddit</string>
     <string name="success_unsubscribe">Вы успешно отписались от subreddit</string>
+    <string name="friends_list">Список друзей</string>
+    <string name="clear_saved">Очистить сохранённое</string>
+    <string name="logout">Выйти</string>
+    <string name="comments_count">Комментарии: %d</string>
+    <string name="karma_count">Карма: %d</string>
+    <string name="back_button">Back button</string>
+    <string name="this_is_your_friends">Это ваши друзья</string>
+    <string name="friends_list_empty">У вас нет друзей \u2639</string>
+    <string name="subreddit_image">Subreddit image</string>
+    <string name="post_image">Post image</string>
+    <string name="subreddit_subscriber_count">Подписчики: %d</string>
+    <string name="add_to_favorite">add to favorite</string>
+    <string name="subreddit_data_empty">У данного сабредита нет описания или изображения \u2639</string>
+    <string name="to_posts">Перейти к постам</string>
+    <string name="post_screen_info">Список постов для сабредита: %s</string>
+    <string name="go_to_chat">Read comments</string>
+    <string name="post_content_empty">Пост без контента</string>
+    <string name="author_is">Автор: %s</string>
 </resources>

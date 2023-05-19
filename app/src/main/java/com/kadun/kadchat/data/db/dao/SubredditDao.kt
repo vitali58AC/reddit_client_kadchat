@@ -22,4 +22,7 @@ interface SubredditDao {
 
     @Query("UPDATE DbSubredditData SET user_is_subscriber = :isSubscribed WHERE display_name = :displayName")
     suspend fun updateSubredditSubscribeState(isSubscribed: Boolean, displayName: String)
+
+    @Query("UPDATE DbSubredditData SET isExpanded = :isExpanded WHERE id = :id")
+    suspend fun updateSubredditExpandedState(id: String, isExpanded: Boolean)
 }
