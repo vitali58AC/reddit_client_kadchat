@@ -4,13 +4,27 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import com.kadun.kadchat.R
 import com.kadun.kadchat.common.InsetsWithBindingFragment
+import com.kadun.kadchat.common.UserSettingPrefs
 import com.kadun.kadchat.databinding.FragmentIntroBinding
 import com.kadun.kadchat.ui.intro.adapters.IntroViewPagerAdapter
 import com.kadun.kadchat.ui.intro.data.IntroPagesData
+import org.koin.android.ext.android.inject
 
 class IntroFragment : InsetsWithBindingFragment<FragmentIntroBinding>() {
+
+    private val userSettings: UserSettingPrefs by inject()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        if (userSettings.getValue(INTRO_SHOWN_KEY)) {
+            findNavController().navigate(IntroFragmentDirections.toLoginFragment())
+        } else {
+            userSettings.putValue(INTRO_SHOWN_KEY)
+        }
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -29,6 +43,7 @@ class IntroFragment : InsetsWithBindingFragment<FragmentIntroBinding>() {
     }
 
     companion object {
+        private const val INTRO_SHOWN_KEY = "intro_shown_key"
         private val introScreens = listOf(
             IntroPagesData(
                 text = R.string.welcome_to_kadchat,

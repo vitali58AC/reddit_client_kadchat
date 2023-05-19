@@ -2,6 +2,7 @@ package com.kadun.kadchat.ui.home.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.view.isVisible
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
@@ -51,6 +52,13 @@ class PostAdapter(private val clickListener: PostClickListener<DbPostsData>) :
                 ivThumbDown.setOnClickListener { clickListener.onVoteDownClicked(item) }
                 ivFavoriteButton.setOnClickListener { clickListener.onFavoriteClicked(item) }
                 ivComments.setOnClickListener { clickListener.onCommentClicked(item) }
+
+                ivFavoriteButton.setImageDrawable(
+                    AppCompatResources.getDrawable(
+                        root.context,
+                        if (item.isFavorite) R.drawable.ic_favorite_fill_24 else R.drawable.ic_favorite_outline_24
+                    )
+                )
 
                 tvEmptyData.isVisible = ivImage.isVisible.not() && tvPostText.isVisible.not()
             }

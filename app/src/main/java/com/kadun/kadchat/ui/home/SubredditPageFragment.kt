@@ -15,6 +15,7 @@ import com.kadun.kadchat.common.createDefaultSnackbar
 import com.kadun.kadchat.data.db.entity.DbSubredditData
 import com.kadun.kadchat.data.extentions.getParcelableSafe
 import com.kadun.kadchat.data.extentions.withArguments
+import com.kadun.kadchat.data.network.data.subreddit.SubscribeAction
 import com.kadun.kadchat.databinding.FragmentSubredditPageBinding
 import com.kadun.kadchat.ui.home.adapters.SubredditAdapter
 import com.kadun.kadchat.ui.home.data.SubredditsType
@@ -30,15 +31,20 @@ class SubredditPageFragment : InsetsWithBindingFragment<FragmentSubredditPageBin
     }
     private val onItemClickListener = object : SubredditClickListener<DbSubredditData> {
         override fun onSubscribeClicked(item: DbSubredditData) {
-            viewModel.changeSubredditSubscribeState(item)
+            val newState = if (item.user_is_subscriber == true) {
+                SubscribeAction.UNSUBSCRIBE
+            } else {
+                SubscribeAction.SUBSCRIBE
+            }
+            viewModel.changeSubredditSubscribeState(newState, item.display_name)
         }
 
         override fun onFavoriteClicked(item: DbSubredditData) {
-            showSnackbar("add to favorite!")
+            viewModel.changeSubredditFavoriteState(item.name, item.isFavorite)
         }
 
         override fun onRootClicked(item: DbSubredditData) {
-            viewModel.changeSubredditExpandState(item)
+            viewModel.changeSubredditExpandState(item.name, item.isExpanded)
         }
 
         override fun onOpenSubredditPosts(item: DbSubredditData) {

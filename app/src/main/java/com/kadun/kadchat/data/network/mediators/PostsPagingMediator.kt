@@ -62,7 +62,10 @@ class PostsPagingMediator<P : Any>(
         db.getPostsDao().insert(dto.children
             .filter { it.data.title != null }
             .map {
-                DbPostsData.fromDto(it.data)
+                val savedFavoriteState = it.data.name?.let {
+                    db.getFavoritePostDao().getDbPostData(it)
+                }?.isFavorite ?: false
+                DbPostsData.fromDto(it.data, savedFavoriteState)
             })
     }
 }

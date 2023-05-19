@@ -1,10 +1,11 @@
 package com.kadun.kadchat.data.repositories
 
 import androidx.paging.*
+import androidx.room.withTransaction
 import com.kadun.kadchat.data.db.RoomDaoDatabase
-import com.kadun.kadchat.data.db.entity.DbFriendsData
-import com.kadun.kadchat.data.db.entity.DbPostsData
-import com.kadun.kadchat.data.db.entity.DbSubredditData
+import com.kadun.kadchat.data.db.entity.*
+import com.kadun.kadchat.data.db.entity.DbPostsData.Companion.toFavoriteData
+import com.kadun.kadchat.data.db.entity.DbSubredditData.Companion.toFavoriteData
 import com.kadun.kadchat.data.network.api.RedditApi
 import com.kadun.kadchat.data.network.data.subreddit.SubscribeAction
 import com.kadun.kadchat.data.network.mediators.FriendsPagingMediator
@@ -91,6 +92,28 @@ class SubredditsRepositoryImpl(
         db.getSubredditDao().updateSubredditExpandedState(id, state)
     }
 
+    override suspend fun changeSubredditFavoriteState(id: String, state: Boolean) =
+        db.withTransaction {
+            db.getSubredditDao().updateSubredditFavoriteState(id, state)
+            db.getFavoriteSubredditDao().updateSubredditFavoriteState(id, state)
+            val oldEntity = db.getSubredditDao().getDbSubredditData(id)
+            db.getFavoriteSubredditDao()
+                .insertSubreddit(oldEntity.toFavoriteData().copy(isFavorite = state))
+            if (state.not()) {
+                db.getFavoriteSubredditDao().clearSubreddits()
+            }
+        }
+
+    override suspend fun changePostFavoriteState(id: String, state: Boolean) = db.withTransaction {
+        db.getPostsDao().updatePostFavoriteState(id, state)
+        val oldEntity = db.getPostsDao().getDbPostData(id)
+        db.getFavoritePostDao()
+            .insert(oldEntity.toFavoriteData().copy(isFavorite = state))
+        if (state.not()) {
+            db.getFavoritePostDao().clearData()
+        }
+    }
+
     override suspend fun getNewSubredditPosts(
         nameWithPrefix: String, after: String?, count: Int?, limit: Int?
     ) = suspendCallForAppResult {
@@ -105,6 +128,14 @@ class SubredditsRepositoryImpl(
             pagingSourceFactory = pagingSourceFactory,
             remoteMediator = PostsPagingMediator(subredditName, db, this)
         ).flow
+    }
+
+    override fun getFavoriteSubreddits(): Flow<List<DbFavoriteSubreddits>> {
+        return db.getFavoriteSubredditDao().getSubredditsFavoriteList()
+    }
+
+    override fun getFavoritePosts(): Flow<List<DbFavoritesPosts>> {
+        return db.getFavoritePostDao().getPostsFavoriteList()
     }
 
     private fun getDefaultPageConfig(): PagingConfig {

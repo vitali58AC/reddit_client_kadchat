@@ -10,6 +10,8 @@ import android.webkit.WebViewClient
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.kadun.kadchat.common.InsetsWithBindingFragment
+import com.kadun.kadchat.common.LOGOUT_KEY
+import com.kadun.kadchat.common.UserSettingPrefs
 import com.kadun.kadchat.data.network.RedditAuthClient.Companion.fixRedditAuthUrl
 import com.kadun.kadchat.databinding.FragmentAuthBinding
 import com.kirkbushman.auth.RedditAuth
@@ -20,6 +22,7 @@ import org.koin.android.ext.android.inject
 class AuthFragment : InsetsWithBindingFragment<FragmentAuthBinding>() {
 
     private val authClient: RedditAuth by inject()
+    private val userSettings: UserSettingPrefs by inject()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -27,7 +30,7 @@ class AuthFragment : InsetsWithBindingFragment<FragmentAuthBinding>() {
     }
 
     private fun initWebView() {
-        if (authClient.hasSavedBearer()) {
+        if (authClient.hasSavedBearer() && userSettings.getValue(LOGOUT_KEY).not()) {
             openHomeFragment()
         } else {
             binding.wbRoot.webViewClient = object : WebViewClient() {
@@ -37,6 +40,7 @@ class AuthFragment : InsetsWithBindingFragment<FragmentAuthBinding>() {
                         binding.wbRoot.stopLoading()
                         lifecycleScope.launch(Dispatchers.IO) {
                             authClient.getTokenBearer(url)?.let {
+                                userSettings.putValue(LOGOUT_KEY, false)
                                 openHomeFragment()
                             }
                         }

@@ -37,9 +37,7 @@ class ProfileFragment : InsetsWithBindingFragment<FragmentProfileBinding>() {
         flFriendsList.setOnClickListener {
             findNavController().navigate(ProfileFragmentDirections.toFriendsListFragment())
         }
-        flClearFavorite.setOnClickListener {
-            showSnackbar("Clear favorites")
-        }
+        flClearFavorite.setOnClickListener { viewModel.clearFavorites() }
         flLogout.setOnClickListener { viewModel.logout() }
     }
 

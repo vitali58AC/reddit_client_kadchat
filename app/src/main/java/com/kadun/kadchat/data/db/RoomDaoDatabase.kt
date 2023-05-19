@@ -18,7 +18,9 @@ import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
         DbFriendsData::class,
         DbFriendsRemoteKeys::class,
         DbPostsData::class,
-        DbPostsRemoteKeys::class
+        DbPostsRemoteKeys::class,
+        DbFavoriteSubreddits::class,
+        DbFavoritesPosts::class
     ],
     version = RoomDaoDatabase.DB_VERSION
 )
@@ -30,9 +32,12 @@ abstract class RoomDaoDatabase : RoomDatabase() {
     abstract fun getFriendsRemoteKeysDao(): FriendsRemoteKeysDao
     abstract fun getPostsDao(): PostsDao
     abstract fun getPostsRemoteKeysDao(): PostsRemoteKeysDao
+    abstract fun getFavoriteSubredditDao(): FavoriteSubredditDao
+    abstract fun getFavoritePostDao(): FavoritePostDao
+
 
     companion object {
-        const val DB_VERSION = 10
+        const val DB_VERSION = 12
         private const val DB_NAME = "room-dao-data"
 
         fun createDb(application: Application): RoomDaoDatabase {

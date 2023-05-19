@@ -3,10 +3,8 @@ package com.kadun.kadchat
 import android.animation.LayoutTransition
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.WindowCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.kadun.kadchat.data.feature.ActivityMainNavigationHelper
@@ -44,7 +42,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun initScopes() = lifecycleScope.launch {
         launch {
-            navigationHelper?.needBottomNavigationTest?.collectLatest {
+            navigationHelper?.needBottomNavigation?.collectLatest {
                 binding.navView.isVisible = it
             }
         }

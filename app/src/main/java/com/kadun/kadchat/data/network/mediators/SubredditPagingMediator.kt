@@ -60,7 +60,10 @@ class SubredditPagingMediator<P : Any>(
                 )
             )
         db.getSubredditDao().insertSubreddit(dto.children.map {
-            DbSubredditData.fromDto(it, type)
+            val savedFavoriteState = it.data.name?.let { name ->
+                db.getFavoriteSubredditDao().getDbSubredditData(name)
+            }?.isFavorite ?: false
+            DbSubredditData.fromDto(it, type, savedFavoriteState)
         })
     }
 }

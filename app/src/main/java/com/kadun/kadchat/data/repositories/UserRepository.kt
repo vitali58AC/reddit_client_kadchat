@@ -6,4 +6,6 @@ import com.kadun.kadchat.data.utils.AppResult
 interface UserRepository {
 
     suspend fun getCurrentUserInfo(): AppResult<UserDto>
+
+    suspend fun clearFavorites()
 }

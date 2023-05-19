@@ -34,6 +34,6 @@ class HomeFragment : InsetsWithBindingFragment<FragmentHomeBinding>() {
         FragmentHomeBinding::inflate
 
     companion object {
-        private const val START_POSITION = 0
+        const val START_POSITION = 0
     }
 }

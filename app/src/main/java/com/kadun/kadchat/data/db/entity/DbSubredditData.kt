@@ -28,7 +28,7 @@ data class DbSubredditData(
     val isFavorite: Boolean = false
 ) {
     companion object {
-        fun fromDto(dto: SubredditsDto, type: SubredditsType) = DbSubredditData(
+        fun fromDto(dto: SubredditsDto, type: SubredditsType, isFavorite: Boolean) = DbSubredditData(
             id = dto.data.id,
             name = dto.data.name,
             title = dto.data.title,
@@ -43,7 +43,28 @@ data class DbSubredditData(
             header_img = dto.data.header_img,
             subscribers = dto.data.subscribers,
             public_description = dto.data.public_description,
-            banner_background_image = dto.data.banner_background_image
+            banner_background_image = dto.data.banner_background_image,
+            isFavorite = isFavorite
+        )
+
+        fun DbSubredditData.toFavoriteData() = DbFavoriteSubreddits(
+            id = id,
+            name = name,
+            title = title,
+            display_name = display_name,
+            display_name_prefixed = display_name_prefixed,
+            community_icon = community_icon,
+            created = created,
+            subredditType = subredditType,
+            user_is_subscriber = user_is_subscriber,
+            description = description,
+            icon_img = icon_img,
+            header_img = header_img,
+            subscribers = subscribers,
+            public_description = public_description,
+            banner_background_image = banner_background_image,
+            isExpanded = isExpanded,
+            isFavorite = isFavorite
         )
     }
 }

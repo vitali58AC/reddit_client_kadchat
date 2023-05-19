@@ -1,9 +1,7 @@
 package com.kadun.kadchat.data.repositories
 
 import androidx.paging.PagingData
-import com.kadun.kadchat.data.db.entity.DbFriendsData
-import com.kadun.kadchat.data.db.entity.DbPostsData
-import com.kadun.kadchat.data.db.entity.DbSubredditData
+import com.kadun.kadchat.data.db.entity.*
 import com.kadun.kadchat.data.network.data.posts.PostDto
 import com.kadun.kadchat.data.network.data.subreddit.DataDto
 import com.kadun.kadchat.data.network.data.subreddit.SubredditsDto
@@ -47,9 +45,17 @@ interface SubredditsRepository {
 
     suspend fun changeSubredditExpandedState(id: String, state: Boolean)
 
+    suspend fun changeSubredditFavoriteState(id: String, state: Boolean)
+
+    suspend fun changePostFavoriteState(id: String, state: Boolean)
+
     suspend fun getNewSubredditPosts(
         nameWithPrefix: String, after: String?, count: Int?, limit: Int? = 25
     ): AppResult<DataDto<PostDto>>
 
     fun getNewPostsFlow(subredditName: String): Flow<PagingData<DbPostsData>>
+
+    fun getFavoriteSubreddits(): Flow<List<DbFavoriteSubreddits>>
+
+    fun getFavoritePosts(): Flow<List<DbFavoritesPosts>>
 }

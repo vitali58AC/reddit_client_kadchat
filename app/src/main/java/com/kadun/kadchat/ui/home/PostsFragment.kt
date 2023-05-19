@@ -30,19 +30,19 @@ class PostsFragment : InsetsWithBindingFragment<FragmentPostsBinding>() {
     private val onItemClickListener = object : PostClickListener<DbPostsData> {
 
         override fun onCommentClicked(item: DbPostsData) {
-            //Обработать клики
+            showSnackbar("В комментарии")
         }
 
         override fun onVoteUpClicked(item: DbPostsData) {
-            TODO("Not yet implemented")
+            showSnackbar("Повысить рейтинг поста")
         }
 
         override fun onVoteDownClicked(item: DbPostsData) {
-            TODO("Not yet implemented")
+            showSnackbar("Снизить рейтинг поста!")
         }
 
         override fun onFavoriteClicked(item: DbPostsData) {
-            TODO("Not yet implemented")
+            viewModel.changePostFavoriteState(item)
         }
     }
 

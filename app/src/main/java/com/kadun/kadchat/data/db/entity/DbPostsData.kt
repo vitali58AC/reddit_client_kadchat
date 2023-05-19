@@ -30,10 +30,11 @@ data class DbPostsData(
     val thumbnail: String?,
     val url_overridden_by_dest: String?,
     val preview: MediaPreview?,
-    val isVoted: Boolean? = null
+    val isVoted: Boolean? = null,
+    val isFavorite: Boolean = false
 ) {
     companion object {
-        fun fromDto(dto: Post) = DbPostsData(
+        fun fromDto(dto: Post, isFavorite: Boolean) = DbPostsData(
             id = dto.id,
             subreddit = dto.subreddit,
             selftext = dto.selftext,
@@ -54,7 +55,34 @@ data class DbPostsData(
             subreddit_subscribers = dto.subreddit_subscribers,
             thumbnail = dto.thumbnail,
             url_overridden_by_dest = dto.url_overridden_by_dest,
-            preview = dto.preview
+            preview = dto.preview,
+            isFavorite = isFavorite
+        )
+
+        fun DbPostsData.toFavoriteData() = DbFavoritesPosts(
+            id = id,
+            subreddit = subreddit,
+            selftext = selftext,
+            title = title,
+            subreddit_name_prefixed = subreddit_name_prefixed,
+            name = name,
+            upvote_ratio = upvote_ratio,
+            ups = ups,
+            score = score,
+            is_self = is_self,
+            created = created,
+            likes = likes,
+            view_count = view_count,
+            subreddit_id = subreddit_id,
+            author = author,
+            num_comments = num_comments,
+            url = url,
+            subreddit_subscribers = subreddit_subscribers,
+            thumbnail = thumbnail,
+            url_overridden_by_dest = url_overridden_by_dest,
+            preview = preview,
+            isVoted = isVoted,
+            isFavorite = isFavorite
         )
     }
 }

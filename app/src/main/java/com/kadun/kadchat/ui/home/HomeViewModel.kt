@@ -3,7 +3,6 @@ package com.kadun.kadchat.ui.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
-import com.kadun.kadchat.data.db.entity.DbSubredditData
 import com.kadun.kadchat.data.network.data.subreddit.SubscribeAction
 import com.kadun.kadchat.data.repositories.SubredditsRepository
 import com.kadun.kadchat.data.utils.onFailure
@@ -33,24 +32,24 @@ class HomeViewModel(
     val subreddits = subredditsRepo.getSubredditFlow(type)
         .cachedIn(viewModelScope)
 
-    fun changeSubredditSubscribeState(item: DbSubredditData) =
+    fun changeSubredditSubscribeState(action: SubscribeAction, displayName: String?) =
         viewModelScope.launch(Dispatchers.IO + coroutineExceptionHandler) {
-            val newState = if (item.user_is_subscriber == true) {
-                SubscribeAction.UNSUBSCRIBE
-            } else {
-                SubscribeAction.SUBSCRIBE
-            }
-            item.display_name?.let { name ->
-                subredditsRepo.changeSubredditSubscribeState(newState, name).onSuccess {
-                    _subscribeStateFlow.emit(newState == SubscribeAction.SUBSCRIBE)
+            displayName?.let { name ->
+                subredditsRepo.changeSubredditSubscribeState(action, name).onSuccess {
+                    _subscribeStateFlow.emit(action == SubscribeAction.SUBSCRIBE)
                 }.onFailure {
                     _errorStateFlow.emit(it.message)
                 }
             }
         }
 
-    fun changeSubredditExpandState(item: DbSubredditData) =
+    fun changeSubredditExpandState(id: String?, isExpanded: Boolean) =
         viewModelScope.launch(Dispatchers.IO + coroutineExceptionHandler) {
-            item.id?.let { subredditsRepo.changeSubredditExpandedState(it, item.isExpanded.not()) }
+            id?.let { subredditsRepo.changeSubredditExpandedState(it, isExpanded.not()) }
+        }
+
+    fun changeSubredditFavoriteState(id: String?, isFavorite: Boolean) =
+        viewModelScope.launch(Dispatchers.IO + coroutineExceptionHandler) {
+            id?.let { subredditsRepo.changeSubredditFavoriteState(it, isFavorite.not()) }
         }
 }

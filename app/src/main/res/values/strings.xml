@@ -40,4 +40,6 @@
     <string name="go_to_chat">Read comments</string>
     <string name="post_content_empty">Пост без контента</string>
     <string name="author_is">Автор: %s</string>
+    <string name="posts">Посты</string>
+    <string name="subreddits">Сабредиты</string>
 </resources>

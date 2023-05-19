@@ -23,8 +23,8 @@ class ActivityMainNavigationHelper(
         )
     )
 
-    private val _needBottomNavigationTest = MutableStateFlow(false)
-    val needBottomNavigationTest: StateFlow<Boolean> get() = _needBottomNavigationTest
+    private val _needBottomNavigation = MutableStateFlow(false)
+    val needBottomNavigation: StateFlow<Boolean> get() = _needBottomNavigation
 
     init {
         navController.addDestinationListener()
@@ -33,7 +33,7 @@ class ActivityMainNavigationHelper(
     private fun NavController.addDestinationListener() {
         addOnDestinationChangedListener { _, destination: NavDestination, _ ->
             lifecycleOwner.lifecycleScope.launch {
-                _needBottomNavigationTest.emit(
+                _needBottomNavigation.emit(
                     appBarConfigurationWithBottomNav.topLevelDestinations.contains(destination.id)
                 )
             }

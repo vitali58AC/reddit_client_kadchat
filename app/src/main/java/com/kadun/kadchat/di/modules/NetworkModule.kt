@@ -19,5 +19,5 @@ val networkModule = module {
     single { AuthInterceptor(get()) }
 
     factory<SubredditsRepository> { SubredditsRepositoryImpl(get(), get()) }
-    factory<UserRepository> { UserRepositoryImpl(get()) }
+    factory<UserRepository> { UserRepositoryImpl(get(), get()) }
 }

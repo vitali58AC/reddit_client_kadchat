@@ -2,6 +2,8 @@ package com.kadun.kadchat.ui.profile
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.kadun.kadchat.common.LOGOUT_KEY
+import com.kadun.kadchat.common.UserSettingPrefs
 import com.kadun.kadchat.data.network.data.users.UserDto
 import com.kadun.kadchat.data.repositories.UserRepository
 import com.kadun.kadchat.data.utils.onFailure
@@ -17,7 +19,8 @@ import kotlinx.coroutines.launch
 
 class ProfileViewModel(
     private val userRepo: UserRepository,
-    private val authClient: RedditAuth
+    private val authClient: RedditAuth,
+    private val userSettingPrefs: UserSettingPrefs
 ) : ViewModel() {
 
     private val _currentUserSharedFlow = MutableStateFlow<UserDto?>(null)
@@ -46,9 +49,14 @@ class ProfileViewModel(
 
     fun logout() = viewModelScope.launch(Dispatchers.IO + coroutineExceptionHandler) {
         try {
-            authClient.getTokenBearer()?.revokeToken()
+            authClient.getSavedBearer().revokeToken()
+            userSettingPrefs.putValue(LOGOUT_KEY)
         } finally {
             _logoutResult.emit(Unit)
         }
+    }
+
+    fun clearFavorites() = viewModelScope.launch(Dispatchers.IO) {
+        userRepo.clearFavorites()
     }
 }
