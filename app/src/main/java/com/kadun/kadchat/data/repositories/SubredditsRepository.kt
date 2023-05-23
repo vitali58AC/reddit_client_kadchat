@@ -2,6 +2,7 @@ package com.kadun.kadchat.data.repositories
 
 import androidx.paging.PagingData
 import com.kadun.kadchat.data.db.entity.*
+import com.kadun.kadchat.data.network.data.comments.CommentsDto
 import com.kadun.kadchat.data.network.data.posts.PostDto
 import com.kadun.kadchat.data.network.data.subreddit.DataDto
 import com.kadun.kadchat.data.network.data.subreddit.SubredditsDto
@@ -49,6 +50,8 @@ interface SubredditsRepository {
 
     suspend fun changePostFavoriteState(id: String, state: Boolean)
 
+    suspend fun changeCommentFavoriteState(id: String, state: Boolean)
+
     suspend fun getNewSubredditPosts(
         nameWithPrefix: String, after: String?, count: Int?, limit: Int? = 25
     ): AppResult<DataDto<PostDto>>
@@ -58,4 +61,10 @@ interface SubredditsRepository {
     fun getFavoriteSubreddits(): Flow<List<DbFavoriteSubreddits>>
 
     fun getFavoritePosts(): Flow<List<DbFavoritesPosts>>
+
+    fun getPostCommentsFlow(postId: String): Flow<PagingData<DbCommentsData>>
+
+    suspend fun getPostComments(
+        id: String, after: String?, depth: Int? = 2, limit: Int?
+    ): AppResult<List<DataDto<CommentsDto>>>
 }

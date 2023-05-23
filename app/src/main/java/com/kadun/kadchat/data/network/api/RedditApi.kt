@@ -1,5 +1,6 @@
 package com.kadun.kadchat.data.network.api
 
+import com.kadun.kadchat.data.network.data.comments.CommentsDto
 import com.kadun.kadchat.data.network.data.posts.PostDto
 import com.kadun.kadchat.data.network.data.subreddit.RedditPagingRootDto
 import com.kadun.kadchat.data.network.data.subreddit.SubredditsDto
@@ -58,10 +59,19 @@ interface RedditApi {
         @Query("limit") limit: Int?
     ): RedditPagingRootDto<PostDto>
 
-
     @POST("api/vote")
     suspend fun changeThingVoteStatus(
         @Query("dir") direction: Int,
         @Query("id") fullName: String,
     ): ResponseBody
+
+    @GET("comments/{id}")
+    suspend fun getPostComments(
+        @Path("id") id: String,
+        @Query("after") after: String?,
+        @Query("depth") depth: Int?,
+        @Query("limit") limit: Int?,
+    ): List<RedditPagingRootDto<CommentsDto>>
 }
+
+

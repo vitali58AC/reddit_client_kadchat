@@ -65,6 +65,27 @@
             android:name="displayNamePrefixed"
             app:argType="string"
             app:nullable="false" />
+        <action
+            android:id="@+id/to_commentsFragment"
+            app:destination="@id/commentsFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/exit_to_left"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/exit_to_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/commentsFragment"
+        android:name="com.kadun.kadchat.ui.home.CommentsFragment"
+        android:label="CommentsFragment"
+        tools:layout="@layout/fragment_comments">
+        <argument
+            android:name="postId"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="postTitle"
+            app:argType="string"
+            app:nullable="true" />
     </fragment>
 
 </navigation>

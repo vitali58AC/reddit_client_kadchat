@@ -2,6 +2,7 @@ package com.kadun.kadchat.di.modules
 
 import com.kadun.kadchat.common.UserSettingPrefs
 import com.kadun.kadchat.ui.favorite.FavoriteViewModel
+import com.kadun.kadchat.ui.home.CommentsViewModel
 import com.kadun.kadchat.ui.home.HomeViewModel
 import com.kadun.kadchat.ui.home.PostsViewModel
 import com.kadun.kadchat.ui.home.data.SubredditsType
@@ -18,4 +19,5 @@ val appModule = module {
     viewModel { FriendsListViewModel(get()) }
     viewModel { (subredditName: String) -> PostsViewModel(subredditName, get()) }
     viewModel { FavoriteViewModel(get()) }
+    viewModel { (postId: String) -> CommentsViewModel(postId, get()) }
 }

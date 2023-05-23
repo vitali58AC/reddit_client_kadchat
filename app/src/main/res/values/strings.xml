@@ -42,4 +42,7 @@
     <string name="author_is">Автор: %s</string>
     <string name="posts">Посты</string>
     <string name="subreddits">Сабредиты</string>
+    <string name="comments">Комментарии</string>
+    <string name="comments_list_for">Список комментариев для %s</string>
+    <string name="create_at">Создан: %s</string>
 </resources>

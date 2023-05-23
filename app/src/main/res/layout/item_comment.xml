@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_ripple_white_rounded_10">
+
+    <LinearLayout
+        android:id="@+id/llUsernameRoot"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="19.08dp"
+        android:layout_marginStart="12dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/ivAvatar"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.MaterialComponents.FloatingActionButton"
+                tools:background="@color/light_gray" />
+
+            <TextView
+                android:id="@+id/tvFirstUsernameChar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textAppearance="@style/RobotoBold"
+                android:textColor="@color/white"
+                android:textSize="22sp"
+                tools:text="V" />
+
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/tvUserName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="8dp"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:padding="4dp"
+            android:textAppearance="@style/RobotoMediumText14"
+            tools:text="Subreddit title" />
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/vThreeLine"
+        android:layout_width="1dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="8dp"
+        android:background="@color/light_gray"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@id/llUsernameRoot"
+        app:layout_constraintTop_toBottomOf="@id/llUsernameRoot" />
+
+    <TextView
+        android:id="@+id/tvBodyText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="4dp"
+        android:textAppearance="@style/RobotoRegular14"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/vThreeLine"
+        app:layout_constraintTop_toBottomOf="@id/llUsernameRoot"
+        tools:text="@string/post_screen_info" />
+
+    <TextView
+        android:id="@+id/tvCreateDate"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginVertical="4dp"
+        android:textAppearance="@style/RobotoRegular12"
+        android:textColor="@color/light_gray"
+        app:layout_constraintBottom_toBottomOf="@id/ivFavoriteButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/vThreeLine"
+        app:layout_constraintTop_toBottomOf="@id/tvBodyText"
+        tools:text="@string/create_at" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvAnswers"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginVertical="8dp"
+        android:paddingBottom="8dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/vThreeLine"
+        app:layout_constraintTop_toBottomOf="@id/tvCreateDate"
+        tools:itemCount="3"
+        tools:listitem="@layout/item_comment_answer" />
+
+    <ImageView
+        android:id="@+id/ivFavoriteButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:background="@drawable/bg_ripple_transparent_rounded"
+        android:clickable="true"
+        android:contentDescription="@string/add_to_favorite"
+        android:focusable="true"
+        android:padding="4dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvBodyText"
+        tools:ignore="TouchTargetSizeCheck"
+        tools:src="@drawable/ic_favorite_fill_24" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -30,7 +30,12 @@ class PostsFragment : InsetsWithBindingFragment<FragmentPostsBinding>() {
     private val onItemClickListener = object : PostClickListener<DbPostsData> {
 
         override fun onCommentClicked(item: DbPostsData) {
-            showSnackbar("В комментарии")
+            findNavController().navigate(
+                PostsFragmentDirections.toCommentsFragment(
+                    postId = item.id,
+                    postTitle = item.title
+                )
+            )
         }
 
         override fun onVoteUpClicked(item: DbPostsData) {

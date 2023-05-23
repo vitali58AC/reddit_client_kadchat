@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.room.*
 import com.kadun.kadchat.data.db.dao.*
 import com.kadun.kadchat.data.db.entity.*
+import com.kadun.kadchat.data.network.data.comments.CommentAnswers
 import com.kadun.kadchat.data.network.data.posts.Image
 import com.kadun.kadchat.data.network.data.posts.ImageDto
 import com.kadun.kadchat.data.network.data.posts.MediaPreview
@@ -20,7 +21,10 @@ import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
         DbPostsData::class,
         DbPostsRemoteKeys::class,
         DbFavoriteSubreddits::class,
-        DbFavoritesPosts::class
+        DbFavoritesPosts::class,
+        DbCommentsData::class,
+        DbFavoritesComments::class,
+        DbCommentsRemoteKeys::class
     ],
     version = RoomDaoDatabase.DB_VERSION
 )
@@ -34,10 +38,13 @@ abstract class RoomDaoDatabase : RoomDatabase() {
     abstract fun getPostsRemoteKeysDao(): PostsRemoteKeysDao
     abstract fun getFavoriteSubredditDao(): FavoriteSubredditDao
     abstract fun getFavoritePostDao(): FavoritePostDao
+    abstract fun getCommentsDao(): CommentsDao
+    abstract fun getFavoriteCommentsDao(): FavoriteCommentsDao
+    abstract fun getCommentsRemoteKeysDao(): CommentsRemoteKeysDao
 
 
     companion object {
-        const val DB_VERSION = 12
+        const val DB_VERSION = 15
         private const val DB_NAME = "room-dao-data"
 
         fun createDb(application: Application): RoomDaoDatabase {
@@ -71,6 +78,13 @@ class DbTypeConverters {
         )
     )
 
+    private val listCommentAnswers = moshi.adapter<List<CommentAnswers>>(
+        Types.newParameterizedType(
+            List::class.java,
+            CommentAnswers::class.java
+        )
+    )
+
     @TypeConverter
     fun listImageToString(list: List<Image>?) = list?.let {
         listImageAdapter.toJson(it)
@@ -99,5 +113,15 @@ class DbTypeConverters {
     @TypeConverter
     fun stringToListImageDto(string: String?) = string?.let {
         listImageDtoAdapter.fromJson(it)
+    }
+
+    @TypeConverter
+    fun listCommentAnswersToString(value: List<CommentAnswers>?) = value?.let {
+        listCommentAnswers.toJson(it)
+    }
+
+    @TypeConverter
+    fun stringToListCommentAnswers(string: String?) = string?.let {
+        listCommentAnswers.fromJson(it)
     }
 }

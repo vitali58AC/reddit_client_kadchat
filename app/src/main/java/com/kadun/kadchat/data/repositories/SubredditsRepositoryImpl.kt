@@ -4,10 +4,12 @@ import androidx.paging.*
 import androidx.room.withTransaction
 import com.kadun.kadchat.data.db.RoomDaoDatabase
 import com.kadun.kadchat.data.db.entity.*
+import com.kadun.kadchat.data.db.entity.DbCommentsData.Companion.toFavoriteData
 import com.kadun.kadchat.data.db.entity.DbPostsData.Companion.toFavoriteData
 import com.kadun.kadchat.data.db.entity.DbSubredditData.Companion.toFavoriteData
 import com.kadun.kadchat.data.network.api.RedditApi
 import com.kadun.kadchat.data.network.data.subreddit.SubscribeAction
+import com.kadun.kadchat.data.network.mediators.CommentsPagingMediator
 import com.kadun.kadchat.data.network.mediators.FriendsPagingMediator
 import com.kadun.kadchat.data.network.mediators.PostsPagingMediator
 import com.kadun.kadchat.data.network.mediators.SubredditPagingMediator
@@ -20,6 +22,19 @@ class SubredditsRepositoryImpl(
     private val api: RedditApi,
     private val db: RoomDaoDatabase
 ) : SubredditsRepository {
+
+    /*    init {
+            GlobalScope.launch(Dispatchers.IO) {
+                suspendCallForAppResult {
+                    delay(20000)
+                    api.getPostComments("13ozk0e", 2, 25)
+                }.onSuccess {
+                    Log.e("tag", "onSuccess ${it}")
+                }.onFailure {
+                    Log.e("tag", "onFailure ${it.message}")
+                }
+            }
+        }*/
 
     override suspend fun getNewSubreddits(after: String?, count: Int?, limit: Int?) =
         suspendCallForAppResult {
@@ -114,6 +129,16 @@ class SubredditsRepositoryImpl(
         }
     }
 
+    override suspend fun changeCommentFavoriteState(id: String, state: Boolean) = db.withTransaction {
+        db.getCommentsDao().updateFavoriteState(id, state)
+        val oldEntity = db.getCommentsDao().getDbCommentsData(id)
+        db.getFavoriteCommentsDao()
+            .insert(oldEntity.toFavoriteData().copy(isFavorite = state))
+        if (state.not()) {
+            db.getFavoriteCommentsDao().clearData()
+        }
+    }
+
     override suspend fun getNewSubredditPosts(
         nameWithPrefix: String, after: String?, count: Int?, limit: Int?
     ) = suspendCallForAppResult {
@@ -137,6 +162,23 @@ class SubredditsRepositoryImpl(
     override fun getFavoritePosts(): Flow<List<DbFavoritesPosts>> {
         return db.getFavoritePostDao().getPostsFavoriteList()
     }
+
+    @OptIn(ExperimentalPagingApi::class)
+    override fun getPostCommentsFlow(postId: String): Flow<PagingData<DbCommentsData>> {
+        val pagingSourceFactory = { db.getCommentsDao().getItems(postId) }
+        return Pager(
+            config = getDefaultPageConfig(),
+            pagingSourceFactory = pagingSourceFactory,
+            remoteMediator = CommentsPagingMediator(postId, db, this)
+        ).flow
+    }
+
+    override suspend fun getPostComments(id: String, after: String?, depth: Int?, limit: Int?) =
+        suspendCallForAppResult {
+            api.getPostComments(id, after, depth, limit).map {
+                it.data
+            }
+        }
 
     private fun getDefaultPageConfig(): PagingConfig {
         return PagingConfig(
