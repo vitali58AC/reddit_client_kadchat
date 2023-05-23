@@ -23,19 +23,6 @@ class SubredditsRepositoryImpl(
     private val db: RoomDaoDatabase
 ) : SubredditsRepository {
 
-    /*    init {
-            GlobalScope.launch(Dispatchers.IO) {
-                suspendCallForAppResult {
-                    delay(20000)
-                    api.getPostComments("13ozk0e", 2, 25)
-                }.onSuccess {
-                    Log.e("tag", "onSuccess ${it}")
-                }.onFailure {
-                    Log.e("tag", "onFailure ${it.message}")
-                }
-            }
-        }*/
-
     override suspend fun getNewSubreddits(after: String?, count: Int?, limit: Int?) =
         suspendCallForAppResult {
             api.getNewSubreddits(after, count, limit).data
@@ -129,15 +116,16 @@ class SubredditsRepositoryImpl(
         }
     }
 
-    override suspend fun changeCommentFavoriteState(id: String, state: Boolean) = db.withTransaction {
-        db.getCommentsDao().updateFavoriteState(id, state)
-        val oldEntity = db.getCommentsDao().getDbCommentsData(id)
-        db.getFavoriteCommentsDao()
-            .insert(oldEntity.toFavoriteData().copy(isFavorite = state))
-        if (state.not()) {
-            db.getFavoriteCommentsDao().clearData()
+    override suspend fun changeCommentFavoriteState(id: String, state: Boolean) =
+        db.withTransaction {
+            db.getCommentsDao().updateFavoriteState(id, state)
+            val oldEntity = db.getCommentsDao().getDbCommentsData(id)
+            db.getFavoriteCommentsDao()
+                .insert(oldEntity.toFavoriteData().copy(isFavorite = state))
+            if (state.not()) {
+                db.getFavoriteCommentsDao().clearData()
+            }
         }
-    }
 
     override suspend fun getNewSubredditPosts(
         nameWithPrefix: String, after: String?, count: Int?, limit: Int?

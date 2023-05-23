@@ -26,6 +26,7 @@
     <string name="clear_saved">Очистить сохранённое</string>
     <string name="logout">Выйти</string>
     <string name="comments_count">Комментарии: %d</string>
+    <string name="comments_karma_count">Карма комментариев: %d</string>
     <string name="karma_count">Карма: %d</string>
     <string name="back_button">Back button</string>
     <string name="this_is_your_friends">Это ваши друзья</string>

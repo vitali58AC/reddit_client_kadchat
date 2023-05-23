@@ -9,10 +9,12 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.SimpleItemAnimator
 import com.kadun.kadchat.R
+import com.kadun.kadchat.common.AnswerClickListener
 import com.kadun.kadchat.common.CommentClickListener
 import com.kadun.kadchat.common.InsetsWithBindingFragment
 import com.kadun.kadchat.data.db.entity.DbCommentsData
 import com.kadun.kadchat.data.extentions.showSnackbar
+import com.kadun.kadchat.data.network.data.comments.CommentAnswers
 import com.kadun.kadchat.databinding.FragmentCommentsBinding
 import com.kadun.kadchat.ui.home.adapters.CommentAdapter
 import com.kadun.kadchat.ui.home.adapters.CommentAnswersAdapter
@@ -28,15 +30,29 @@ class CommentsFragment : InsetsWithBindingFragment<FragmentCommentsBinding>() {
         parametersOf(args.postId)
     }
 
-    private val onItemClickListener = object : CommentClickListener<DbCommentsData> {
+    private val onCommentClickListener = object : CommentClickListener<DbCommentsData> {
 
         override fun onFavoriteClick(item: DbCommentsData) {
             viewModel.changeCommentFavoriteState(item)
         }
+
+        override fun onUsernameClick(item: DbCommentsData) {
+            openUserFragment(item.author)
+        }
+    }
+
+    private val onAnswerClickListener = object : AnswerClickListener<CommentAnswers> {
+
+        override fun onUsernameClick(item: CommentAnswers) {
+            openUserFragment(item.author)
+        }
     }
 
     private val commentAdapter by lazy {
-        CommentAdapter(clickListener = onItemClickListener, answerAdapter = CommentAnswersAdapter())
+        CommentAdapter(
+            clickListener = onCommentClickListener,
+            answerAdapter = CommentAnswersAdapter(onAnswerClickListener)
+        )
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -74,6 +90,15 @@ class CommentsFragment : InsetsWithBindingFragment<FragmentCommentsBinding>() {
                 showSnackbar(message)
             }
         }
+    }
+
+    private fun openUserFragment(author: String?) {
+        author ?: return
+        findNavController().navigate(
+            CommentsFragmentDirections.actionCommentsFragmentToUserFragment(
+                author = author
+            )
+        )
     }
 
 

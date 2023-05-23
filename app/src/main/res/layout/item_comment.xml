@@ -12,6 +12,9 @@
         android:layout_height="wrap_content"
         android:layout_marginVertical="19.08dp"
         android:layout_marginStart="12dp"
+        android:background="@drawable/bg_ripple_transparent_rounded"
+        android:clickable="true"
+        android:focusable="true"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 

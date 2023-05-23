@@ -5,6 +5,7 @@ import com.kadun.kadchat.data.network.data.posts.PostDto
 import com.kadun.kadchat.data.network.data.subreddit.RedditPagingRootDto
 import com.kadun.kadchat.data.network.data.subreddit.SubredditsDto
 import com.kadun.kadchat.data.network.data.users.FriendDto
+import com.kadun.kadchat.data.network.data.users.RedditUserDto
 import com.kadun.kadchat.data.network.data.users.UserDto
 import okhttp3.ResponseBody
 import retrofit2.http.GET
@@ -40,6 +41,11 @@ interface RedditApi {
 
     @GET("api/v1/me")
     suspend fun getCurrentUserInfo(): UserDto
+
+    @GET("user/{username}/about")
+    suspend fun getUserInfo(
+        @Path("username") username: String,
+    ): RedditUserDto
 
     @GET("api/v1/me/friends")
     suspend fun getCurrentUserFriends(

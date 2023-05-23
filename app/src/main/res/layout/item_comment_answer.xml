@@ -12,6 +12,9 @@
         android:layout_height="wrap_content"
         android:layout_marginVertical="19.08dp"
         android:layout_marginStart="12dp"
+        android:background="@drawable/bg_ripple_transparent_rounded"
+        android:clickable="true"
+        android:focusable="true"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -85,9 +88,9 @@
         android:layout_marginBottom="4dp"
         android:textAppearance="@style/RobotoRegular12"
         android:textColor="@color/light_gray"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/vThreeLine"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvBodyText"
         tools:text="@string/create_at" />
 

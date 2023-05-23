@@ -1,0 +1,30 @@
+package com.kadun.kadchat.data.network.data.users
+
+data class Data(
+    val accept_chats: Boolean?,
+    val accept_followers: Boolean?,
+    val accept_pms: Boolean?,
+    val awardee_karma: Int?,
+    val awarder_karma: Int?,
+    val comment_karma: Int?,
+    val created: Double?,
+    val created_utc: Double?,
+    val has_subscribed: Boolean?,
+    val has_verified_email: Boolean?,
+    val hide_from_robots: Boolean?,
+    val icon_img: String?,
+    val id: String?,
+    val is_blocked: Boolean?,
+    val is_employee: Boolean?,
+    val is_friend: Boolean?,
+    val is_gold: Boolean?,
+    val is_mod: Boolean?,
+    val link_karma: Int?,
+    val name: String?,
+    val pref_show_snoovatar: Boolean?,
+    val snoovatar_img: String?,
+    val snoovatar_size: List<Int?>?,
+    val subreddit: Subreddit?,
+    val total_karma: Int?,
+    val verified: Boolean?
+)

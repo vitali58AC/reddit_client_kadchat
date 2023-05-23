@@ -80,51 +80,51 @@
         app:constraint_referenced_ids="tvPostText, tvEmptyData, ivImage" />
 
     <!--TODO Закончить рейтинг поста-->
-   <!-- <LinearLayout
-        android:id="@+id/flVoteRoot"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/bottomBarrier">
+    <!-- <LinearLayout
+         android:id="@+id/flVoteRoot"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:gravity="center"
+         android:orientation="horizontal"
+         app:layout_constraintBottom_toBottomOf="parent"
+         app:layout_constraintStart_toStartOf="parent"
+         app:layout_constraintTop_toBottomOf="@id/bottomBarrier">
 
-        <ImageView
-            android:id="@+id/ivThumbUp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/bg_ripple_transparent_rounded"
-            android:clickable="true"
-            android:contentDescription="@string/add_to_favorite"
-            android:focusable="true"
-            android:padding="12dp"
-            android:src="@drawable/ic_thump_up_gray_24"
-            tools:ignore="TouchTargetSizeCheck" />
+         <ImageView
+             android:id="@+id/ivThumbUp"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:background="@drawable/bg_ripple_transparent_rounded"
+             android:clickable="true"
+             android:contentDescription="@string/add_to_favorite"
+             android:focusable="true"
+             android:padding="12dp"
+             android:src="@drawable/ic_thump_up_gray_24"
+             tools:ignore="TouchTargetSizeCheck" />
 
-        <TextView
-            android:id="@+id/tvVoteCount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="@style/RobotoMediumText14"
-            android:textColor="@color/black"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvTitle"
-            tools:text="10" />
+         <TextView
+             android:id="@+id/tvVoteCount"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:textAppearance="@style/RobotoMediumText14"
+             android:textColor="@color/black"
+             app:layout_constraintStart_toStartOf="parent"
+             app:layout_constraintTop_toBottomOf="@id/tvTitle"
+             tools:text="10" />
 
-        <ImageView
-            android:id="@+id/ivThumbDown"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/bg_ripple_transparent_rounded"
-            android:clickable="true"
-            android:contentDescription="@string/add_to_favorite"
-            android:focusable="true"
-            android:padding="12dp"
-            android:src="@drawable/ic_thumb_down_gray_24"
-            tools:ignore="TouchTargetSizeCheck" />
+         <ImageView
+             android:id="@+id/ivThumbDown"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:background="@drawable/bg_ripple_transparent_rounded"
+             android:clickable="true"
+             android:contentDescription="@string/add_to_favorite"
+             android:focusable="true"
+             android:padding="12dp"
+             android:src="@drawable/ic_thumb_down_gray_24"
+             tools:ignore="TouchTargetSizeCheck" />
 
-    </LinearLayout>-->
+     </LinearLayout>-->
 
     <LinearLayout
         android:id="@+id/flChatRoot"
@@ -134,7 +134,7 @@
         android:gravity="center"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@id/flVoteRoot"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/bottomBarrier">
 
         <TextView

@@ -86,6 +86,23 @@
             android:name="postTitle"
             app:argType="string"
             app:nullable="true" />
+        <action
+            android:id="@+id/action_commentsFragment_to_userFragment"
+            app:destination="@id/userFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/exit_to_left"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/exit_to_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/userFragment"
+        android:name="com.kadun.kadchat.ui.profile.UserFragment"
+        android:label="UserFragment"
+        tools:layout="@layout/fragment_user">
+        <argument
+            android:name="author"
+            app:argType="string"
+            app:nullable="true" />
     </fragment>
 
 </navigation>

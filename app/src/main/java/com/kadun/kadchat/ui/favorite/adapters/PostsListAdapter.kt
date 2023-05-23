@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.kadun.kadchat.R
 import com.kadun.kadchat.common.PostClickListener
 import com.kadun.kadchat.data.db.entity.DbFavoritesPosts
-import com.kadun.kadchat.data.extentions.getCompatDrawable
 import com.kadun.kadchat.data.extentions.loadImage
 import com.kadun.kadchat.databinding.ItemPostBinding
 
@@ -45,24 +44,11 @@ class PostsListAdapter(private val clickListener: PostClickListener<DbFavoritesP
                 tvCommentCount.text = item.num_comments?.toString() ?: "0"
 
                 handlePostImage(item)
-                handleVoteButtons(item)
 
-                ivThumbUp.setOnClickListener { clickListener.onVoteUpClicked(item) }
-                ivThumbDown.setOnClickListener { clickListener.onVoteDownClicked(item) }
                 ivFavoriteButton.setOnClickListener { clickListener.onFavoriteClicked(item) }
                 ivComments.setOnClickListener { clickListener.onCommentClicked(item) }
 
                 tvEmptyData.isVisible = ivImage.isVisible.not() && tvPostText.isVisible.not()
-            }
-        }
-
-        private fun ItemPostBinding.handleVoteButtons(item: DbFavoritesPosts) {
-            tvVoteCount.text = item.ups?.toString()
-            item.isVoted ?: return
-            if (item.isVoted) {
-                ivThumbUp.setImageDrawable(root.context.getCompatDrawable(R.drawable.ic_thumb_up_logo_color_24))
-            } else {
-                ivThumbDown.setImageDrawable(root.context.getCompatDrawable(R.drawable.ic_thumb_down_logo_color_24))
             }
         }
 

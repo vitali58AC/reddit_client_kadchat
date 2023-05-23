@@ -6,12 +6,15 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.kadun.kadchat.R
+import com.kadun.kadchat.common.AnswerClickListener
 import com.kadun.kadchat.data.extentions.setRandomBackgroundColor
 import com.kadun.kadchat.data.extentions.toDateTime
 import com.kadun.kadchat.data.network.data.comments.CommentAnswers
 import com.kadun.kadchat.databinding.ItemCommentAnswerBinding
 
-class CommentAnswersAdapter() :
+class CommentAnswersAdapter(
+    private val clickListener: AnswerClickListener<CommentAnswers>,
+) :
     ListAdapter<CommentAnswers, CommentAnswersAdapter.Holder>(
         DiffCallback
     ) {
@@ -42,6 +45,8 @@ class CommentAnswersAdapter() :
                 tvBodyText.text = item.body
                 val date = item.created?.toDateTime() ?: "Unknown"
                 tvCreateDate.text = root.context.getString(R.string.create_at, date)
+
+                llUsernameRoot.setOnClickListener { clickListener.onUsernameClick(item) }
             }
         }
     }

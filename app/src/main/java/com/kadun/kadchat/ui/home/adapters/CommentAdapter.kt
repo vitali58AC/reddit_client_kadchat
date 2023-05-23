@@ -62,6 +62,7 @@ class CommentAdapter(
                 )
                 answerAdapter.submitList(item.replies)
                 ivFavoriteButton.setOnClickListener { clickListener.onFavoriteClick(item) }
+                llUsernameRoot.setOnClickListener { clickListener.onUsernameClick(item) }
             }
         }
     }

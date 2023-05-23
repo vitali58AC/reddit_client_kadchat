@@ -8,6 +8,7 @@ import com.kadun.kadchat.data.network.data.subreddit.DataDto
 import com.kadun.kadchat.data.network.data.subreddit.SubredditsDto
 import com.kadun.kadchat.data.network.data.subreddit.SubscribeAction
 import com.kadun.kadchat.data.network.data.users.FriendDto
+import com.kadun.kadchat.data.network.data.users.RedditUserDto
 import com.kadun.kadchat.data.utils.AppResult
 import com.kadun.kadchat.ui.home.data.SubredditsType
 import kotlinx.coroutines.flow.Flow
@@ -67,4 +68,5 @@ interface SubredditsRepository {
     suspend fun getPostComments(
         id: String, after: String?, depth: Int? = 2, limit: Int?
     ): AppResult<List<DataDto<CommentsDto>>>
+
 }

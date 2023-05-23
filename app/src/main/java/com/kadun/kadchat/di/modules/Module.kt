@@ -8,6 +8,7 @@ import com.kadun.kadchat.ui.home.PostsViewModel
 import com.kadun.kadchat.ui.home.data.SubredditsType
 import com.kadun.kadchat.ui.profile.FriendsListViewModel
 import com.kadun.kadchat.ui.profile.ProfileViewModel
+import com.kadun.kadchat.ui.profile.UserViewModel
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -20,4 +21,5 @@ val appModule = module {
     viewModel { (subredditName: String) -> PostsViewModel(subredditName, get()) }
     viewModel { FavoriteViewModel(get()) }
     viewModel { (postId: String) -> CommentsViewModel(postId, get()) }
+    viewModel { (author: String) -> UserViewModel(author, get()) }
 }

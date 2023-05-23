@@ -46,10 +46,7 @@ class PostAdapter(private val clickListener: PostClickListener<DbPostsData>) :
                 tvCommentCount.text = item.num_comments?.toString() ?: "0"
 
                 handlePostImage(item)
-                handleVoteButtons(item)
 
-                ivThumbUp.setOnClickListener { clickListener.onVoteUpClicked(item) }
-                ivThumbDown.setOnClickListener { clickListener.onVoteDownClicked(item) }
                 ivFavoriteButton.setOnClickListener { clickListener.onFavoriteClicked(item) }
                 ivComments.setOnClickListener { clickListener.onCommentClicked(item) }
 
@@ -61,16 +58,6 @@ class PostAdapter(private val clickListener: PostClickListener<DbPostsData>) :
                 )
 
                 tvEmptyData.isVisible = ivImage.isVisible.not() && tvPostText.isVisible.not()
-            }
-        }
-
-        private fun ItemPostBinding.handleVoteButtons(item: DbPostsData) {
-            tvVoteCount.text = item.ups?.toString()
-            item.isVoted ?: return
-            if (item.isVoted) {
-                ivThumbUp.setImageDrawable(root.context.getCompatDrawable(R.drawable.ic_thumb_up_logo_color_24))
-            } else {
-                ivThumbDown.setImageDrawable(root.context.getCompatDrawable(R.drawable.ic_thumb_down_logo_color_24))
             }
         }
 

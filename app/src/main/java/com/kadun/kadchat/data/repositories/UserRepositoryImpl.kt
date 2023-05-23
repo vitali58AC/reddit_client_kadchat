@@ -18,4 +18,9 @@ class UserRepositoryImpl(
         db.getFavoriteSubredditDao().clearSubreddits()
         db.getFavoritePostDao().clearData()
     }
+
+    override suspend fun getUserInfo(author: String) =
+        suspendCallForAppResult {
+            api.getUserInfo(author)
+        }
 }
