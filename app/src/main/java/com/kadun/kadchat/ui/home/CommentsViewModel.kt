@@ -28,6 +28,6 @@ class CommentsViewModel(
 
     fun changeCommentFavoriteState(item: DbCommentsData) =
         viewModelScope.launch(Dispatchers.IO + coroutineExceptionHandler) {
-            item.name?.let { subredditsRepo.changeCommentFavoriteState(it, item.isFavorite.not()) }
+            item.id?.let { subredditsRepo.changeCommentFavoriteState(it, item.isFavorite.not()) }
         }
 }

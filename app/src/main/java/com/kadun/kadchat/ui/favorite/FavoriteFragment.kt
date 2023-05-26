@@ -9,7 +9,6 @@ import com.kadun.kadchat.R
 import com.kadun.kadchat.common.InsetsWithBindingFragment
 import com.kadun.kadchat.databinding.FragmentFavoriteBinding
 import com.kadun.kadchat.ui.favorite.adapters.FavoritePageAdapter
-import com.kadun.kadchat.ui.home.HomeFragment
 
 class FavoriteFragment : InsetsWithBindingFragment<FragmentFavoriteBinding>() {
 
@@ -22,10 +21,11 @@ class FavoriteFragment : InsetsWithBindingFragment<FragmentFavoriteBinding>() {
         viewPager.adapter =
             FavoritePageAdapter(childFragmentManager, viewLifecycleOwner.lifecycle)
         TabLayoutMediator(tabsRoot, viewPager, true, true) { tab, position ->
-            tab.text = if (position == HomeFragment.START_POSITION) {
-                getString(R.string.subreddits)
-            } else {
-                getString(R.string.posts)
+            tab.text = when (position) {
+                SUBREDDITS_POSITION -> getString(R.string.subreddits)
+                POSTS_POSITION -> getString(R.string.posts)
+                COMMENTS_POSITION -> getString(R.string.comments)
+                else -> ""
             }
         }.attach()
     }
@@ -34,4 +34,10 @@ class FavoriteFragment : InsetsWithBindingFragment<FragmentFavoriteBinding>() {
     override fun getRootView() = binding.root
     override fun getBinding(): (inflater: LayoutInflater, root: ViewGroup?, attachToRoot: Boolean) -> FragmentFavoriteBinding =
         FragmentFavoriteBinding::inflate
+
+    companion object {
+        const val SUBREDDITS_POSITION = 0
+        const val POSTS_POSITION = 1
+        const val COMMENTS_POSITION = 2
+    }
 }

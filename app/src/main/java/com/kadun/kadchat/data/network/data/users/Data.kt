@@ -16,7 +16,7 @@ data class Data(
     val id: String?,
     val is_blocked: Boolean?,
     val is_employee: Boolean?,
-    val is_friend: Boolean?,
+    var is_friend: Boolean?,
     val is_gold: Boolean?,
     val is_mod: Boolean?,
     val link_karma: Int?,

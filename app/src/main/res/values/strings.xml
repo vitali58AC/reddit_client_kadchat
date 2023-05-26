@@ -45,5 +45,9 @@
     <string name="subreddits">Сабредиты</string>
     <string name="comments">Комментарии</string>
     <string name="comments_list_for">Список комментариев для %s</string>
+    <string name="screen_by_user">Экран пользователя %s</string>
     <string name="create_at">Создан: %s</string>
+    <string name="user_with_at">@%s</string>
+    <string name="subscribe">Подписаться</string>
+    <string name="unsubscribe">Отписаться</string>
 </resources>

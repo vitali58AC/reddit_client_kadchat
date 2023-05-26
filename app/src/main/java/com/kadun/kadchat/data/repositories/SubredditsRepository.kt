@@ -1,14 +1,19 @@
 package com.kadun.kadchat.data.repositories
 
 import androidx.paging.PagingData
-import com.kadun.kadchat.data.db.entity.*
+import com.kadun.kadchat.data.db.entity.DbCommentsData
+import com.kadun.kadchat.data.db.entity.DbFavoriteSubreddits
+import com.kadun.kadchat.data.db.entity.DbFavoritesComments
+import com.kadun.kadchat.data.db.entity.DbFavoritesPosts
+import com.kadun.kadchat.data.db.entity.DbFriendsData
+import com.kadun.kadchat.data.db.entity.DbPostsData
+import com.kadun.kadchat.data.db.entity.DbSubredditData
 import com.kadun.kadchat.data.network.data.comments.CommentsDto
 import com.kadun.kadchat.data.network.data.posts.PostDto
 import com.kadun.kadchat.data.network.data.subreddit.DataDto
 import com.kadun.kadchat.data.network.data.subreddit.SubredditsDto
 import com.kadun.kadchat.data.network.data.subreddit.SubscribeAction
 import com.kadun.kadchat.data.network.data.users.FriendDto
-import com.kadun.kadchat.data.network.data.users.RedditUserDto
 import com.kadun.kadchat.data.utils.AppResult
 import com.kadun.kadchat.ui.home.data.SubredditsType
 import kotlinx.coroutines.flow.Flow
@@ -62,6 +67,8 @@ interface SubredditsRepository {
     fun getFavoriteSubreddits(): Flow<List<DbFavoriteSubreddits>>
 
     fun getFavoritePosts(): Flow<List<DbFavoritesPosts>>
+
+    fun getFavoriteComments(): Flow<List<DbFavoritesComments>>
 
     fun getPostCommentsFlow(postId: String): Flow<PagingData<DbCommentsData>>
 

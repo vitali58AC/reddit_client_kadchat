@@ -8,19 +8,25 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.SimpleItemAnimator
 import com.kadun.kadchat.R
+import com.kadun.kadchat.common.AnswerClickListener
+import com.kadun.kadchat.common.CommentClickListener
 import com.kadun.kadchat.common.InsetsWithBindingFragment
 import com.kadun.kadchat.common.PostClickListener
 import com.kadun.kadchat.common.SubredditClickListener
 import com.kadun.kadchat.data.db.entity.DbFavoriteSubreddits
+import com.kadun.kadchat.data.db.entity.DbFavoritesComments
 import com.kadun.kadchat.data.db.entity.DbFavoritesPosts
 import com.kadun.kadchat.data.extentions.getParcelableSafe
 import com.kadun.kadchat.data.extentions.showSnackbar
 import com.kadun.kadchat.data.extentions.withArguments
+import com.kadun.kadchat.data.network.data.comments.CommentAnswers
 import com.kadun.kadchat.data.network.data.subreddit.SubscribeAction
 import com.kadun.kadchat.databinding.FragmentFavoritePageBinding
+import com.kadun.kadchat.ui.favorite.adapters.CommentListAdapter
 import com.kadun.kadchat.ui.favorite.adapters.PostsListAdapter
 import com.kadun.kadchat.ui.favorite.adapters.SubredditListAdapter
 import com.kadun.kadchat.ui.favorite.data.FavoriteType
+import com.kadun.kadchat.ui.home.adapters.CommentAnswersAdapter
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -80,12 +86,37 @@ class FavoritePageFragment : InsetsWithBindingFragment<FragmentFavoritePageBindi
         }
     }
 
+    private val onCommentClickListener = object : CommentClickListener<DbFavoritesComments> {
+
+        override fun onFavoriteClick(item: DbFavoritesComments) {
+            showSnackbar("Add to favorite")
+        }
+
+        override fun onUsernameClick(item: DbFavoritesComments) {
+            openUserFragment(item.author)
+        }
+    }
+
+    private val onAnswerClickListener = object : AnswerClickListener<CommentAnswers> {
+
+        override fun onUsernameClick(item: CommentAnswers) {
+            openUserFragment(item.author)
+        }
+    }
+
     private val subredditAdapter by lazy {
         SubredditListAdapter(clickListener = onSubredditClickListener)
     }
 
     private val postAdapter by lazy {
         PostsListAdapter(clickListener = onPostClickListener)
+    }
+
+    private val commentAdapter by lazy {
+        CommentListAdapter(
+            clickListener = onCommentClickListener,
+            answerAdapter = CommentAnswersAdapter(onAnswerClickListener)
+        )
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -102,6 +133,7 @@ class FavoritePageFragment : InsetsWithBindingFragment<FragmentFavoritePageBindi
                 when (currentType) {
                     FavoriteType.SUBREDDITS -> subredditAdapter
                     FavoriteType.POSTS -> postAdapter
+                    FavoriteType.COMMENTS -> commentAdapter
                 }
             adapter = currentAdapter
             setHasFixedSize(true)
@@ -122,6 +154,11 @@ class FavoritePageFragment : InsetsWithBindingFragment<FragmentFavoritePageBindi
                 }
             }
             launch {
+                viewModel.getFavoriteComments().collectLatest {
+                    commentAdapter.submitList(it)
+                }
+            }
+            launch {
                 subscribeStateFlow.collectLatest {
                     val message =
                         getString(if (it) R.string.success_subscribe else R.string.success_unsubscribe)
@@ -135,6 +172,15 @@ class FavoritePageFragment : InsetsWithBindingFragment<FragmentFavoritePageBindi
                 }
             }
         }
+    }
+
+    private fun openUserFragment(author: String?) {
+        author ?: return
+        findNavController().navigate(
+            FavoriteFragmentDirections.toUserFragment(
+                author = author
+            )
+        )
     }
 
     override fun getTopView() = null

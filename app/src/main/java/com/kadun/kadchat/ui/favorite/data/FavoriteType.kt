@@ -5,5 +5,5 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 enum class FavoriteType : Parcelable {
-    SUBREDDITS, POSTS
+    SUBREDDITS, POSTS, COMMENTS
 }

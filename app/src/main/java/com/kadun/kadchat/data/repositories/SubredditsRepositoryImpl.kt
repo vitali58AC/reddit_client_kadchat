@@ -151,6 +151,10 @@ class SubredditsRepositoryImpl(
         return db.getFavoritePostDao().getPostsFavoriteList()
     }
 
+    override fun getFavoriteComments(): Flow<List<DbFavoritesComments>> {
+        return db.getFavoriteCommentsDao().getFavoriteList()
+    }
+
     @OptIn(ExperimentalPagingApi::class)
     override fun getPostCommentsFlow(postId: String): Flow<PagingData<DbCommentsData>> {
         val pagingSourceFactory = { db.getCommentsDao().getItems(postId) }

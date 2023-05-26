@@ -6,10 +6,13 @@ import com.kadun.kadchat.data.network.data.subreddit.RedditPagingRootDto
 import com.kadun.kadchat.data.network.data.subreddit.SubredditsDto
 import com.kadun.kadchat.data.network.data.users.FriendDto
 import com.kadun.kadchat.data.network.data.users.RedditUserDto
+import com.kadun.kadchat.data.network.data.users.SetFriendInDto
 import com.kadun.kadchat.data.network.data.users.UserDto
 import okhttp3.ResponseBody
+import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.PUT
 import retrofit2.http.Path
 import retrofit2.http.Query
 
@@ -78,6 +81,13 @@ interface RedditApi {
         @Query("depth") depth: Int?,
         @Query("limit") limit: Int?,
     ): List<RedditPagingRootDto<CommentsDto>>
+
+    @PUT("api/v1/me/friends/{username}")
+    suspend fun changeUserIsFriendStatus(
+        @Path("username") name: String,
+        @Body container: SetFriendInDto,
+    ): ResponseBody
 }
+
 
 

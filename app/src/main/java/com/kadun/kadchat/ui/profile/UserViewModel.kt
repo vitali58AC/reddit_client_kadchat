@@ -12,7 +12,8 @@ import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.launch
 
 class UserViewModel(
-    author: String?, private val userRepo: UserRepository
+    author: String?,
+    private val userRepo: UserRepository
 ) : ViewModel() {
 
     private val _errorStateFlow = MutableSharedFlow<String?>()
@@ -37,4 +38,8 @@ class UserViewModel(
                 }
             }
         }
+
+    fun changeUserIsFriendStatus(name: String, isFriend: Boolean) = viewModelScope.launch(Dispatchers.IO) {
+        userRepo.changeUserIsFriendStatus(name, isFriend)
+    }
 }

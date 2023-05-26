@@ -50,6 +50,7 @@ class FavoriteViewModel(
 
     fun getFavoriteSubreddits() = subredditsRepo.getFavoriteSubreddits()
     fun getFavoritePosts() = subredditsRepo.getFavoritePosts()
+    fun getFavoriteComments() = subredditsRepo.getFavoriteComments()
 
     fun changePostFavoriteState(item: DbFavoritesPosts) =
         viewModelScope.launch(Dispatchers.IO + coroutineExceptionHandler) {

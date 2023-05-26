@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -33,6 +34,7 @@ class UserFragment : InsetsWithBindingFragment<FragmentUserBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.initFlows()
+        binding.initViews()
     }
 
     private fun UserViewModel.initFlows() = viewLifecycleOwner.lifecycleScope.launch {
@@ -43,10 +45,17 @@ class UserFragment : InsetsWithBindingFragment<FragmentUserBinding>() {
                     tvUserName.text = user.id
                     tvCommentsCount.text =
                         getString(R.string.comments_karma_count, user.comment_karma)
-                    tvSubredditsCount.text =
-                        getString(R.string.karma_count, user.total_karma)
+                    tvSubredditsCount.text = getString(R.string.karma_count, user.total_karma)
                     loadImage(user.icon_img)
                     setupSubreddit(user.subreddit)
+                    setupButtons(user.is_friend)
+                    flSubscribe.setOnClickListener {
+                        user.is_friend = user.is_friend?.not() ?: false
+                        setupButtons(user.is_friend)
+                        user.name?.let {
+                            viewModel.changeUserIsFriendStatus(it, user.is_friend ?: false)
+                        }
+                    }
                 }
             }
         }
@@ -58,29 +67,33 @@ class UserFragment : InsetsWithBindingFragment<FragmentUserBinding>() {
         }
     }
 
+    private fun FragmentUserBinding.initViews() {
+        userHeader.tvTitle.text = getString(R.string.user_with_at, args.author)
+        userHeader.ivBack.setOnClickListener { findNavController().popBackStack() }
+        userHeader.ivInfo.setOnClickListener {
+            showSnackbar(getString(R.string.comments_list_for, args.author))
+        }
+    }
+
     private fun loadImage(url: String?) {
-        Glide.with(binding.root.context.applicationContext)
-            .apply {
+        Glide.with(binding.root.context.applicationContext).apply {
                 if (url == null) {
                     clear(binding.ivAvatar)
                     binding.ivAvatar.setImageDrawable(
                         AppCompatResources.getDrawable(
-                            requireContext(),
-                            R.drawable.ic_launcher_drawable_list
+                            requireContext(), R.drawable.ic_launcher_drawable_list
                         )
                     )
                 } else {
-                    load(url.fixRedditImageLink())
-                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    load(url.fixRedditImageLink()).diskCacheStrategy(DiskCacheStrategy.ALL)
                         .placeholder(R.drawable.ic_user_avatar_placeholder_90dp)
-                        .transform(CenterCrop())
-                        .into(binding.ivAvatar)
+                        .transform(CenterCrop()).into(binding.ivAvatar)
                 }
             }
     }
 
     private fun FragmentUserBinding.setupSubreddit(subreddit: Subreddit?) {
-        tvTitle.text = subreddit?.title
+        tvUserTitle.text = subreddit?.title ?: subreddit?.display_name_prefixed
         ivCommunityIcon.isVisible = subreddit?.community_icon?.isEmpty()?.not() == true
         subreddit?.community_icon?.let { ivCommunityIcon.loadImage(it) }
 
@@ -93,6 +106,21 @@ class UserFragment : InsetsWithBindingFragment<FragmentUserBinding>() {
         tvEmptyData.isVisible = tvDescription.isVisible.not() && ivImage.isVisible.not()
 
     }
+
+    private fun FragmentUserBinding.setupButtons(isFriend: Boolean?) {
+        if (isFriend == true) {
+            tvSubscribeButton.text = getString(R.string.unsubscribe)
+            ibSubscribe.setImageDrawable(
+                AppCompatResources.getDrawable(requireContext(), R.drawable.ic_unsubscribe_white)
+            )
+        } else {
+            tvSubscribeButton.text = getString(R.string.subscribe)
+            ibSubscribe.setImageDrawable(
+                AppCompatResources.getDrawable(requireContext(), R.drawable.ic_subscribe_white)
+            )
+        }
+    }
+
 
     override fun getTopView() = null
     override fun getRootView() = binding.root
