@@ -10,7 +10,7 @@ interface FavoriteSubredditDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertSubreddit(subreddit: DbFavoriteSubreddits)
 
-    @Query("DELETE FROM DbFavoriteSubreddits WHERE isFavorite = 0")
+    @Query("DELETE FROM DbFavoriteSubreddits WHERE isFavorite = 1")
     suspend fun clearSubreddits()
 
     @Transaction

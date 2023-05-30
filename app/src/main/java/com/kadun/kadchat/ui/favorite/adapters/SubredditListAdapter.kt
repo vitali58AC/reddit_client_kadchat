@@ -58,13 +58,7 @@ class SubredditListAdapter(private val clickListener: SubredditClickListener<DbF
 
                 tvEmptyData.isVisible = tvDescription.isVisible.not() && ivImage.isVisible.not()
 
-                ivFavoriteButton.setImageDrawable(
-                    AppCompatResources.getDrawable(
-                        root.context,
-                        if (item.isFavorite) R.drawable.ic_favorite_fill_24 else R.drawable.ic_favorite_outline_24
-                    )
-                )
-                ivFavoriteButton.setOnClickListener { clickListener.onFavoriteClicked(item) }
+                ivFavoriteButton.isVisible = false
                 llTitleRoot.setOnClickListener { clickListener.onRootClicked(item) }
                 flToPosts.setOnClickListener { clickListener.onOpenSubredditPosts(item) }
             }

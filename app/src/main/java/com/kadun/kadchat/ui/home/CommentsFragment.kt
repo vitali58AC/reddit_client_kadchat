@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -13,6 +14,8 @@ import com.kadun.kadchat.common.AnswerClickListener
 import com.kadun.kadchat.common.CommentClickListener
 import com.kadun.kadchat.common.InsetsWithBindingFragment
 import com.kadun.kadchat.data.db.entity.DbCommentsData
+import com.kadun.kadchat.data.extentions.isNotLoading
+import com.kadun.kadchat.data.extentions.isRefreshLoading
 import com.kadun.kadchat.data.extentions.showSnackbar
 import com.kadun.kadchat.data.network.data.comments.CommentAnswers
 import com.kadun.kadchat.databinding.FragmentCommentsBinding
@@ -88,6 +91,15 @@ class CommentsFragment : InsetsWithBindingFragment<FragmentCommentsBinding>() {
             errorStateFlow.collectLatest {
                 val message = it ?: getString(R.string.unknown_error_occurred)
                 showSnackbar(message)
+            }
+        }
+        launch {
+            commentAdapter.loadStateFlow.collectLatest {
+                binding.progressBar.isVisible =
+                    it.isRefreshLoading() && commentAdapter.itemCount == 0
+                binding.tvEmptyContainer.isVisible =
+                    it.isNotLoading() && commentAdapter.itemCount == 0
+                binding.rvComments.isVisible = binding.tvEmptyContainer.isVisible.not()
             }
         }
     }

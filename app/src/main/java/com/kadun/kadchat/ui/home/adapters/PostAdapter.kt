@@ -47,6 +47,7 @@ class PostAdapter(private val clickListener: PostClickListener<DbPostsData>) :
 
                 handlePostImage(item)
 
+                ivFavoriteButton.isVisible = true
                 ivFavoriteButton.setOnClickListener { clickListener.onFavoriteClicked(item) }
                 ivComments.setOnClickListener { clickListener.onCommentClicked(item) }
 

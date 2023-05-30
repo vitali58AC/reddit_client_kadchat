@@ -50,4 +50,10 @@
     <string name="user_with_at">@%s</string>
     <string name="subscribe">Подписаться</string>
     <string name="unsubscribe">Отписаться</string>
+    <string name="save_item_to_device">Сохраняйте %s на устройство кликая на \ud83e\udd0d</string>
+    <string name="subreddits_lower">сабредиты</string>
+    <string name="posts_lower">посты</string>
+    <string name="comments_lower">комментарии</string>
+    <string name="no_post">В данном сабредите нет постов \u2639</string>
+    <string name="no_comments">В данном посте нет комментариев \u2639</string>
 </resources>

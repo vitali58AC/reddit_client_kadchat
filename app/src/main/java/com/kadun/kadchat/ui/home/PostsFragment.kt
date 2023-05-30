@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -12,6 +13,8 @@ import com.kadun.kadchat.R
 import com.kadun.kadchat.common.InsetsWithBindingFragment
 import com.kadun.kadchat.common.PostClickListener
 import com.kadun.kadchat.data.db.entity.DbPostsData
+import com.kadun.kadchat.data.extentions.isNotLoading
+import com.kadun.kadchat.data.extentions.isRefreshLoading
 import com.kadun.kadchat.data.extentions.showSnackbar
 import com.kadun.kadchat.databinding.FragmentPostsBinding
 import com.kadun.kadchat.ui.home.adapters.PostAdapter
@@ -78,6 +81,15 @@ class PostsFragment : InsetsWithBindingFragment<FragmentPostsBinding>() {
         launch {
             posts.collectLatest {
                 postAdapter.submitData(it)
+            }
+        }
+        launch {
+            postAdapter.loadStateFlow.collectLatest {
+                binding.progressBar.isVisible =
+                    it.isRefreshLoading() && postAdapter.itemCount == 0
+                binding.tvEmptyContainer.isVisible =
+                    it.isNotLoading() && postAdapter.itemCount == 0
+                binding.rvPosts.isVisible = binding.tvEmptyContainer.isVisible.not()
             }
         }
     }

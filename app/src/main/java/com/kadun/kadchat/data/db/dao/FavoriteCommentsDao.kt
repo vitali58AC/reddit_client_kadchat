@@ -14,7 +14,7 @@ interface FavoriteCommentsDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(data: DbFavoritesComments)
 
-    @Query("DELETE FROM DbFavoritesComments WHERE isFavorite = 0")
+    @Query("DELETE FROM DbFavoritesComments WHERE isFavorite = 1")
     suspend fun clearData()
 
     @Transaction

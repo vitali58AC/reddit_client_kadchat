@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.SimpleItemAnimator
@@ -128,6 +129,7 @@ class FavoritePageFragment : InsetsWithBindingFragment<FragmentFavoritePageBindi
     private fun FragmentFavoritePageBinding.initViews() {
         val currentType =
             requireArguments().getParcelableSafe<FavoriteType>(FAVORITE_TYPE) ?: return
+        setupEmptyContainer(currentType)
         rvItems.apply {
             val currentAdapter =
                 when (currentType) {
@@ -142,19 +144,27 @@ class FavoritePageFragment : InsetsWithBindingFragment<FragmentFavoritePageBindi
     }
 
     private fun FavoriteViewModel.initFlows() {
+        val currentType =
+            requireArguments().getParcelableSafe<FavoriteType>(FAVORITE_TYPE) ?: return
         viewLifecycleOwner.lifecycleScope.launch {
             launch {
                 viewModel.getFavoriteSubreddits().collectLatest {
+                    if (currentType != FavoriteType.SUBREDDITS) return@collectLatest
+                    showEmptyContainer(it.isEmpty())
                     subredditAdapter.submitList(it)
                 }
             }
             launch {
                 viewModel.getFavoritePosts().collectLatest {
+                    if (currentType != FavoriteType.POSTS) return@collectLatest
+                    showEmptyContainer(it.isEmpty())
                     postAdapter.submitList(it)
                 }
             }
             launch {
                 viewModel.getFavoriteComments().collectLatest {
+                    if (currentType != FavoriteType.COMMENTS) return@collectLatest
+                    showEmptyContainer(it.isEmpty())
                     commentAdapter.submitList(it)
                 }
             }
@@ -181,6 +191,20 @@ class FavoritePageFragment : InsetsWithBindingFragment<FragmentFavoritePageBindi
                 author = author
             )
         )
+    }
+
+    private fun FragmentFavoritePageBinding.setupEmptyContainer(type: FavoriteType) {
+        val containerName = when (type) {
+            FavoriteType.SUBREDDITS -> getString(R.string.subreddits_lower)
+            FavoriteType.POSTS -> getString(R.string.posts_lower)
+            FavoriteType.COMMENTS -> getString(R.string.comments_lower)
+        }
+        tvEmptyContainer.text = getString(R.string.save_item_to_device, containerName)
+    }
+
+    private fun showEmptyContainer(isEmpty: Boolean) {
+        binding.tvEmptyContainer.isVisible = isEmpty
+        binding.rvItems.isVisible = isEmpty.not()
     }
 
     override fun getTopView() = null

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.SimpleItemAnimator
@@ -14,6 +15,7 @@ import com.kadun.kadchat.common.aboveBottomNavigation
 import com.kadun.kadchat.common.createDefaultSnackbar
 import com.kadun.kadchat.data.db.entity.DbSubredditData
 import com.kadun.kadchat.data.extentions.getParcelableSafe
+import com.kadun.kadchat.data.extentions.isRefreshLoading
 import com.kadun.kadchat.data.extentions.withArguments
 import com.kadun.kadchat.data.network.data.subreddit.SubscribeAction
 import com.kadun.kadchat.databinding.FragmentSubredditPageBinding
@@ -94,6 +96,12 @@ class SubredditPageFragment : InsetsWithBindingFragment<FragmentSubredditPageBin
                 errorStateFlow.collectLatest {
                     val message = it ?: getString(R.string.unknown_error_occurred)
                     showSnackbar(message)
+                }
+            }
+            launch {
+                subredditAdapter.loadStateFlow.collectLatest {
+                    binding.progressBar.isVisible =
+                        it.isRefreshLoading() && subredditAdapter.itemCount == 0
                 }
             }
         }

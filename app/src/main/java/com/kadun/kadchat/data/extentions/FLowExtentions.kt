@@ -15,3 +15,5 @@ fun CombinedLoadStates.isNotLoading(): Boolean {
     return isMediatorNotLoading && isSourceNotLoading &&
             append.isNotLoading() && prepend.isNotLoading() && refresh.isNotLoading()
 }
+
+fun CombinedLoadStates.isRefreshLoading() = this.refresh is LoadState.Loading

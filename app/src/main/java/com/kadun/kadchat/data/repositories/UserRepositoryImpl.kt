@@ -18,6 +18,7 @@ class UserRepositoryImpl(
     override suspend fun clearFavorites() = db.withTransaction {
         db.getFavoriteSubredditDao().clearSubreddits()
         db.getFavoritePostDao().clearData()
+        db.getFavoriteCommentsDao().clearData()
     }
 
     override suspend fun getUserInfo(author: String) =
