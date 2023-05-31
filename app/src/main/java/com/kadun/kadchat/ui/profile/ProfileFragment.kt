@@ -7,6 +7,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.content.res.AppCompatResources
+import androidx.core.view.isInvisible
+import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
@@ -68,6 +70,12 @@ class ProfileFragment : InsetsWithBindingFragment<FragmentProfileBinding>() {
                 }
                 (context as? Activity)?.finish()
                 context?.startActivity(intent)
+            }
+        }
+        launch {
+            loadingStateFlow.collectLatest {
+                binding.progressBar.isVisible = it
+                binding.llProfileInfo.isInvisible = it
             }
         }
     }

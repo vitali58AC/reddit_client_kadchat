@@ -65,6 +65,14 @@ class UserFragment : InsetsWithBindingFragment<FragmentUserBinding>() {
                 showSnackbar(message)
             }
         }
+        launch {
+            loadingStateFlow.collectLatest {
+                binding.progressBar.isVisible = it
+                binding.llUserInfo.isVisible = it.not()
+                binding.flSubscribe.isVisible = it.not()
+                binding.clSubredditRoot.isVisible = it.not()
+            }
+        }
     }
 
     private fun FragmentUserBinding.initViews() {

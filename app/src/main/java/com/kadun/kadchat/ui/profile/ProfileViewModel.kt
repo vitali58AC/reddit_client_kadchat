@@ -32,6 +32,9 @@ class ProfileViewModel(
     private val _logoutResult = MutableSharedFlow<Unit>()
     val logoutResult: SharedFlow<Unit> get() = _logoutResult
 
+    private val _loadingStateFlow = MutableSharedFlow<Boolean>()
+    val loadingStateFlow: SharedFlow<Boolean> get() = _loadingStateFlow
+
     private val coroutineExceptionHandler = CoroutineExceptionHandler { _, e ->
         viewModelScope.launch { _errorStateFlow.emit(e.message) }
     }
@@ -43,18 +46,23 @@ class ProfileViewModel(
     private fun getProfileData() =
         viewModelScope.launch(Dispatchers.IO + coroutineExceptionHandler) {
             userRepo.getCurrentUserInfo().onSuccess {
+                _loadingStateFlow.emit(false)
                 _currentUserSharedFlow.emit(it)
-            }.onFailure { _errorStateFlow.emit(it.message) }
+            }.onFailure {
+                _loadingStateFlow.emit(false)
+                _errorStateFlow.emit(it.message)
+            }
         }
 
-    fun logout() = viewModelScope.launch(Dispatchers.IO + coroutineExceptionHandler) {
-        try {
-            authClient.getSavedBearer().revokeToken()
-            userSettingPrefs.putValue(LOGOUT_KEY)
-        } finally {
-            _logoutResult.emit(Unit)
+    fun logout() =
+        viewModelScope.launch(Dispatchers.IO + coroutineExceptionHandler) {
+            try {
+                authClient.getTokenBearer()?.revokeToken()
+                userSettingPrefs.putValue(LOGOUT_KEY)
+            } finally {
+                _logoutResult.emit(Unit)
+            }
         }
-    }
 
     fun clearFavorites() = viewModelScope.launch(Dispatchers.IO) {
         userRepo.clearFavorites()

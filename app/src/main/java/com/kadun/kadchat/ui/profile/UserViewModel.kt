@@ -22,6 +22,9 @@ class UserViewModel(
     private val _userInfoFlow = MutableSharedFlow<Data>()
     val userInfoFlow: SharedFlow<Data> get() = _userInfoFlow
 
+    private val _loadingStateFlow = MutableSharedFlow<Boolean>()
+    val loadingStateFlow: SharedFlow<Boolean> get() = _loadingStateFlow
+
     private val coroutineExceptionHandler = CoroutineExceptionHandler { _, e ->
         viewModelScope.launch { _errorStateFlow.emit(e.message) }
     }
@@ -32,8 +35,10 @@ class UserViewModel(
 
     private fun getUserInfo(author: String) =
         viewModelScope.launch(Dispatchers.IO + coroutineExceptionHandler) {
+            _loadingStateFlow.emit(true)
             userRepo.getUserInfo(author).onSuccess {
                 it.data?.let { data ->
+                    _loadingStateFlow.emit(false)
                     _userInfoFlow.emit(data)
                 }
             }
