@@ -3,12 +3,17 @@ package com.kadun.kadchat.data.network
 import android.content.Context
 import com.kirkbushman.auth.RedditAuth
 import com.kirkbushman.auth.managers.SharedPrefsStorageManager
+import java.lang.Exception
 
 class RedditAuthClient {
 
     companion object {
 
-        private const val CLIENT_ID = "9nWnhf8tCodGEpxyrh2hvw"
+        private val CLIENT_ID = "CLIENT_ID"
+            get() {
+                throw Exception("Get Client id from https://www.reddit.com/prefs/apps")
+                field
+            }
         private const val REDIRECT_URI = "android-app://com.kadun.kadchat/login_fragment"
         private val SCOPES = arrayOf(
             "identity",
